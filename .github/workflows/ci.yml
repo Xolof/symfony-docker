@@ -39,6 +39,10 @@ jobs:
         name: Start services
         run: docker compose up --wait --no-build
       -
+        name: Debug PHP container logs
+        if: failure() # Only run if the previous step failed
+        run: docker compose logs php
+      -
         name: Check HTTP reachability
         run: curl -v --fail-with-body http://localhost
       -
