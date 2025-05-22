@@ -35,9 +35,13 @@ jobs:
             *.cache-from=type=gha,scope=${{github.ref}}
             *.cache-from=type=gha,scope=refs/heads/master
             *.cache-to=type=gha,scope=${{github.ref}},mode=max
+
+      - name: Prepare environment file
+        run: |
+          printf %s "${{ secrets.ENV_FILE }}" > .env.local
       -
         name: Start services
-        run: docker compose up --wait --no-build
+        run: docker compose up --wait --build
       -
         name: Debug PHP container logs
         if: failure() # Only run if the previous step failed
