@@ -4,21 +4,23 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class BadgerController
+class BadgerController extends AbstractController
 {
-    #[Route('/badger/number')]
-    public function number(): Response
+    #[Route('/badger/hello')]
+    public function hello(): Response
     {
-        $number = random_int(0, 100);
+        $names = [
+            "Kjell",
+            "Mumin",
+            "Kalle Stropp",
+            "Grodan Boll"
+        ];
 
-        return new Response(
-            '<html>
-            <body>
-            <img src="/img/badger.jpg" alt="badger" height=250px />
-            <p>Badger number: '.$number.'</p>
-            </body>
-            </html>'
-        );
+        $name = $names[rand(0, count($names) -1)];
+        return $this->render("badger/hello.html.twig", [
+            "name" => $name
+        ]);
     }
 }
