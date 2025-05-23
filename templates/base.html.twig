@@ -13,21 +13,22 @@
         {% endblock %}
     </head>
     <body>
+        <nav>
+            <a href="/" class="brand">
+                <img class="logo" src="/logo.png" />
+            </a>
+
+            <!-- responsive-->
+            <input id="bmenub" type="checkbox" class="show">
+            <label for="bmenub" class="burger pseudo button">&#8801;</label>
+
+            <div class="menu">
+                <a href="/badgers">Badger list</a>
+                <a href="/create/badger">Add badger</a>
+            </div>
+        </nav>
+
         <main class="container">
-            <nav>
-                <a href="/" class="brand">
-                    <img class="logo" src="/logo.png" />
-                </a>
-
-                <!-- responsive-->
-                <input id="bmenub" type="checkbox" class="show">
-                <label for="bmenub" class="burger pseudo button">&#8801;</label>
-
-                <div class="menu">
-                    <a href="/badgers">Badger list</a>
-                    <a href="/create/badger">Add badger</a>
-                </div>
-            </nav>
 
             {% for message in app.flashes('success') %}
                 <div class="flash success">
@@ -37,5 +38,6 @@
 
             {% block body %}{% endblock %}
         </main>
+
     </body>
 </html>
