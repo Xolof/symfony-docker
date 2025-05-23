@@ -7,11 +7,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Badger;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class CreateBadgerController extends AbstractController
 {
     #[Route('/create/badger', name: 'app_create_badger')]
-    public function index(EntityManagerInterface $entity_manager): Response
+    public function index(EntityManagerInterface $entity_manager, ValidatorInterface $validator): Response
     {
 
 
@@ -27,6 +28,12 @@ final class CreateBadgerController extends AbstractController
         $badger->setName("European badger");
         $badger->setContinent("Europe");
         $badger->setDescription($description);
+
+        $errors = $validator->validate($badger);
+
+        if (count($errors) > 0) {
+            return new Response((string) $errors, 400);
+        }
 
         $entity_manager->persist($badger);
         
