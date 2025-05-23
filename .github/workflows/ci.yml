@@ -101,9 +101,9 @@ jobs:
         with:
           name: app
 
-      - name: Prepare environment file
+      - name: Prepare environment files
         run: |
-          printf %s "${{ secrets.ENV_FILE }}" > .env.local
+          printf %s "${{ secrets.ENV_FILE }}" > .env && printf %s "${{ secrets.ENV_FILE_LOCAL }}" > .env.local
 
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@7.0.1
