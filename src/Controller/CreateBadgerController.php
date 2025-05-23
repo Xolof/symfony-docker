@@ -49,6 +49,10 @@ final class CreateBadgerController extends AbstractController
             $entity_manager->persist($badger);
             $entity_manager->flush();
 
+            $this->addFlash(
+                'success',
+                'Your changes were saved!'
+            );
             return $this->redirectToRoute('badger_show_all');
         }
         
