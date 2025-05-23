@@ -55,10 +55,18 @@ ul.error {
   color: #fff;
 }
 
-body {
+body, nav, nav .burger~.menu {
   background-color: #0C090A;
 }
 
-h1, h2, h3, h4, h5, p, li, label {
+h1, h2, h3, h4, h5, p, li, label, a.brand {
   color: #D1D0CE;
-} 
+}
+
+.burger.pseudo.button {
+  color: #D1D0CE;
+}
+
+a {
+  color: #4c9be1;
+}

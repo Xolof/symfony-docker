@@ -14,6 +14,20 @@
     </head>
     <body>
         <main class="container">
+            <nav>
+                <a href="/" class="brand">
+                    <img class="logo" src="/logo.png" />
+                </a>
+
+                <!-- responsive-->
+                <input id="bmenub" type="checkbox" class="show">
+                <label for="bmenub" class="burger pseudo button">&#8801;</label>
+
+                <div class="menu">
+                    <a href="/badgers">Badger list</a>
+                    <a href="/create/badger">Add badger</a>
+                </div>
+            </nav>
             {% block body %}{% endblock %}
         </main>
     </body>
