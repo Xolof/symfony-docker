@@ -103,7 +103,7 @@ jobs:
 
       - name: Prepare environment file
         run: |
-          printf %s "${{ secrets.ENV_FILE }}" > .env
+          printf %s "${{ secrets.ENV_FILE }}" > .env.local
 
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@7.0.1
