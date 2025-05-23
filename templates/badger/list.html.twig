@@ -4,6 +4,10 @@
 
 <h1>Badger website</h1>
 
+{% if badgers|length < 1 %}
+    <p>There are not yet any published badgers.</p>
+{% endif %}
+
 {% for badger in badgers %}
     <h2>{{ badger.name }}</h2>
 

@@ -34,14 +34,6 @@ class BadgerController extends AbstractController
     {
         $badgers = $entityManager->getRepository(Badger::class)->findAll();
 
-        if (!$badgers) {
-            throw $this->createNotFoundException(
-                'No badgers found'
-            );
-        }
-
-        // dd($badgers);
-
         return $this->render("badger/list.html.twig", [
             "badgers" => $badgers
         ]);
