@@ -9,6 +9,10 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>{{ message }}! ✅</h1>
+    <h1>{{ message }}</h1>
+    {% for error in errors %}
+        <p>{{ error.propertyPath }}: {{ error.message }}</p>
+    {% endfor %}
+    {{ form(form) }}
 </div>
 {% endblock %}

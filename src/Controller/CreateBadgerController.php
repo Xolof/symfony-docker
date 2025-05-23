@@ -4,43 +4,58 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Badger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class CreateBadgerController extends AbstractController
 {
     #[Route('/create/badger', name: 'app_create_badger')]
-    public function index(EntityManagerInterface $entity_manager, ValidatorInterface $validator): Response
+    public function index(
+        EntityManagerInterface $entity_manager,
+        ValidatorInterface $validator,
+        Request $request
+    ): Response
     {
 
 
-        $description = <<<EOD
-            The European badger, also known as the Eurasian badger, 
-            is a mustelid native to Europe and parts of Asia. 
-            It is classified as least concern on the IUCN Red List due to its wide range and stable population size,
-            which is thought to be increasing in some regions.
-            The badger is a social, omnivorous mammal that resides in woodlands, pastures, suburbs, and urban parks. It is known for its black and white striped face and a body that is grayish with black and white fur.
-        EOD;
 
-        $badger = new Badger();
-        $badger->setName("European badger");
-        $badger->setContinent("Europe");
-        $badger->setDescription($description);
+        // dd($errors);
 
-        $errors = $validator->validate($badger);
+        $form = $this->createFormBuilder()
+            ->add('name', TextType::class)
+            ->add('continent', TextType::class)
+            ->add('description', TextType::class)
+            ->add('save', SubmitType::class, ['label' => 'Save Badger'])
+            ->getForm();
 
-        if (count($errors) > 0) {
-            return new Response((string) $errors, 400);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $badger = new Badger();
+
+            $errors = $validator->validate($badger);
+
+            $formData = $form->getData();
+            // dd($formData);
+            $badger->setName($formData["name"]);
+            $badger->setContinent($formData["continent"]);
+            $badger->setDescription($formData["description"]);
+            $entity_manager->persist($badger);
+            $entity_manager->flush();
+
+            return $this->redirectToRoute('app_create_badger');
         }
-
-        $entity_manager->persist($badger);
-        
-        $entity_manager->flush();
         
         return $this->render('create_badger/index.html.twig', [
-            'message' => "Badger added!",
+            'message' => "Create badger",
+            'form' => $form,
+            'errors' => $errors ?? null
         ]);
     }
 }
