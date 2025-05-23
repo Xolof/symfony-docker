@@ -3,10 +3,17 @@
 {% block body %}
 
 <h1>Badger website</h1>
-<img src="/img/badger.jpg" alt="badger" />
-<h2>Hello, {{ name }}!</h2>
+
+<h2>{{ name }}</h2>
+
+<h3>Continent</h3>
 <p>
-Badgers are stout, nocturnal mammals known for their powerful digging abilities and distinctive black-and-white striped faces. Found in various habitats across North America, Europe, and Asia, they belong to the Mustelidae family. Badgers are omnivorous, eating small animals, insects, and plants. They live in burrows called setts, which they dig with strong claws. Fiercely territorial, badgers are solitary or live in small groups, displaying bold behavior when threatened. Their thick skin and tenacity make them formidable in the wild.
+    {{ continent }}
+</p>
+
+<h3>Description</h3>
+<p>
+    {{ description }}
 </p>
 
 {% endblock %}

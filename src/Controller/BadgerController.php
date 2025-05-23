@@ -5,22 +5,27 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Badger;
+use Doctrine\ORM\EntityManagerInterface;
 
 class BadgerController extends AbstractController
 {
-    #[Route('/badger/hello')]
-    public function hello(): Response
+    #[Route('/badger/{id}', name: 'badger_show')]
+    public function show(EntityManagerInterface $entityManager, int $id): Response
     {
-        $names = [
-            "Kjell",
-            "Mumin",
-            "Kalle Stropp",
-            "Grodan Boll"
-        ];
+        $badger = $entityManager->getRepository(Badger::class)->find($id);
 
-        $name = $names[rand(0, count($names) -1)];
+        if (!$badger) {
+            throw $this->createNotFoundException(
+                'No badger found for id ' . $id
+            );
+        }
+
         return $this->render("badger/hello.html.twig", [
-            "name" => $name
+            "name" => $badger->getName(),
+            "continent" => $badger->getContinent(),
+            "description" => $badger->getDescription()
+
         ]);
     }
 }
