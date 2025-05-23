@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<h1>Badger website</h1>
+
+{% for badger in badgers %}
+    <h2>{{ badger.name }}</h2>
+
+    <h3>Continent</h3>
+    <p>
+        {{ badger.continent }}
+    </p>
+
+    <h3>Description</h3>
+    <p>
+        {{ badger.description }}
+    </p>
+
+    <hr>
+{% endfor %}
+
+{% endblock %}
