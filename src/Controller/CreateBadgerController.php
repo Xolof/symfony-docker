@@ -49,7 +49,7 @@ final class CreateBadgerController extends AbstractController
             $entity_manager->persist($badger);
             $entity_manager->flush();
 
-            return $this->redirectToRoute('app_create_badger');
+            return $this->redirectToRoute('badger_show_all');
         }
         
         return $this->render('create_badger/index.html.twig', [
