@@ -21,11 +21,6 @@ final class CreateBadgerController extends AbstractController
         Request $request
     ): Response
     {
-
-
-
-        // dd($errors);
-
         $form = $this->createFormBuilder()
             ->add('name', TextType::class)
             ->add('continent', TextType::class)
@@ -34,28 +29,28 @@ final class CreateBadgerController extends AbstractController
             ->getForm();
 
         $form->handleRequest($request);
+        $formData = $form->getData();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
+        if ($form->isSubmitted()) {
             $badger = new Badger();
-
-            $errors = $validator->validate($badger);
-
-            $formData = $form->getData();
-            // dd($formData);
             $badger->setName($formData["name"]);
             $badger->setContinent($formData["continent"]);
             $badger->setDescription($formData["description"]);
-            $entity_manager->persist($badger);
-            $entity_manager->flush();
 
-            $this->addFlash(
-                'success',
-                'Your changes were saved!'
-            );
-            return $this->redirectToRoute('badger_show_all');
+            $errors = $validator->validate($badger);
+
+            if (count($errors) < 1) {
+                $entity_manager->persist($badger);
+                $entity_manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Your changes were saved!'
+                );
+                return $this->redirectToRoute('badger_show_all');
+            }
         }
-        
+
         return $this->render('create_badger/index.html.twig', [
             'message' => "Create badger",
             'form' => $form,
