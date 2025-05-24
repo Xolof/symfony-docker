@@ -29,7 +29,7 @@ class BadgerController extends AbstractController
         ]);
     }
 
-    #[Route('/badgers', name: 'badger_show_all')]
+    #[Route('/', name: 'app_home')]
     public function showAll(EntityManagerInterface $entityManager): Response
     {
         $badgers = $entityManager
