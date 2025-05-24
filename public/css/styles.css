@@ -71,6 +71,12 @@ a {
   color: #4c9be1;
 }
 
-input[type=text]:disabled, textfield:disabled {
+input[type=text]:disabled, textarea:disabled {
   color: #595959;
+}
+
+#form_description {
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 150px;
 }
