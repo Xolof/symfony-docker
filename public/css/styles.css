@@ -21,7 +21,7 @@
   text-align: center;
 }
 
-.flash {
+.flash, .alert {
     padding: var(--spacing-md);
     text-align: center;
     margin-top: var(--spacing-xxl);
@@ -33,7 +33,7 @@
   color: #155724;
 }
 
-ul.error {
+.flash.error, ul.error, .alert-danger {
   background-color: #f8d7da;
   border-color: #f5c6cb;
   color: #721c24;
