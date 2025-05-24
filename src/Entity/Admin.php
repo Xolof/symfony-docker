@@ -33,7 +33,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(options: [ "default" => false ])]
-    private ?bool $isActive = null;
+    private ?bool $isActive = false;
 
     public function getId(): ?int
     {
