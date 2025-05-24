@@ -131,3 +131,4 @@ jobs:
             # chmod -R 775 ${{ secrets.DEPLOY_PATH }}bootstrap/cache
             # chmod 600 ${{ secrets.DEPLOY_PATH }}.env
             # chmod 600 ${{ secrets.DEPLOY_PATH }}.env.dev
+            php8.4 vendor/bin/console doctrine:migrations:migrate --no-interaction
