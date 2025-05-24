@@ -6,10 +6,13 @@ use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints;
 
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
 #[ORM\Table(name: '`admin`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[Constraints\UniqueEntity(fields: ['email'], message: 'The email {{ value }} is already in use.')]
 class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,6 +21,9 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
     private ?string $email = null;
 
     /**
@@ -25,6 +31,14 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private array $roles = [];
+
+    /**
+     * @var string The raw password
+     */
+    #[Assert\PasswordStrength([
+        'minScore' => Assert\PasswordStrength::STRENGTH_WEAK
+    ])]
+    private ?string $rawPassword = null;
 
     /**
      * @var string The hashed password
@@ -90,6 +104,13 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    public function validateRawPassword(string $rawPassword): static
+    {
+        $this->rawPassword = $rawPassword;
+
+        return $this;
     }
 
     public function setPassword(string $password): static
