@@ -25,7 +25,9 @@
 
             <div class="menu">
                 <a href="/badgers">Badger list</a>
-                <a href="/create/badger">Add badger</a>
+                {% if is_granted('ROLE_USER') %}
+                    <a href="/create/badger">Add badger</a>
+                {% endif %}
                 <a href="/register">Register</a>
             </div>
         </nav>
