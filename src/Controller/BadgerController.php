@@ -32,7 +32,12 @@ class BadgerController extends AbstractController
     #[Route('/badgers', name: 'badger_show_all')]
     public function showAll(EntityManagerInterface $entityManager): Response
     {
-        $badgers = $entityManager->getRepository(Badger::class)->findAll();
+        $badgers = $entityManager
+            ->getRepository(Badger::class)
+            ->createQueryBuilder('badger')
+            ->addOrderBy('badger.id', 'DESC')
+            ->getQuery()
+            ->execute();
 
         return $this->render("badger/list.html.twig", [
             "badgers" => $badgers
