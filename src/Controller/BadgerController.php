@@ -10,6 +10,7 @@ use App\Entity\Badger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class BadgerController extends AbstractController
@@ -62,7 +63,7 @@ class BadgerController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('name', TextType::class, [ 'data' => $badger->getName() ])
             ->add('continent', TextType::class, [ 'data' => $badger->getContinent() ])
-            ->add('description', TextType::class, [ 'data' => $badger->getDescription() ])
+            ->add('description', TextareaType::class, [ 'data' => $badger->getDescription() ])
             ->add('save', SubmitType::class, ['label' => 'Save Badger'])
             ->getForm();
 
@@ -111,7 +112,7 @@ class BadgerController extends AbstractController
             'attr' => [ 'disabled' => true ] ])
             ->add('continent', TextType::class, [ 'data' => $badger->getContinent(),
             'attr' => [ 'disabled' => true ] ])
-            ->add('description', TextType::class, [ 'data' => $badger->getDescription(),
+            ->add('description', TextareaType::class, [ 'data' => $badger->getDescription(),
             'attr' => [ 'disabled' => true ] ])
             ->add('save', SubmitType::class,
                 [ 'label' => 'I understand, delete this badger',

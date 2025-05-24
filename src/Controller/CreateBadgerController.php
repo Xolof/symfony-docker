@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 final class CreateBadgerController extends AbstractController
 {
@@ -24,7 +25,7 @@ final class CreateBadgerController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('name', TextType::class)
             ->add('continent', TextType::class)
-            ->add('description', TextType::class)
+            ->add('description', TextareaType::class)
             ->add('save', SubmitType::class, ['label' => 'Save Badger'])
             ->getForm();
 
