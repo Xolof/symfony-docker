@@ -47,7 +47,7 @@ final class CreateBadgerController extends AbstractController
                     'success',
                     'Your changes were saved!'
                 );
-                return $this->redirectToRoute('badger_show_all');
+                return $this->redirectToRoute('app_home');
             }
         }
 
