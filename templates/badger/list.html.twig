@@ -21,7 +21,15 @@
         {{ badger.description }}
     </p>
 
+    {% if is_granted('ROLE_USER') %}
+        <p>
+            <a href="/edit/badger/{{ badger.id }}">Edit badger {{ badger.id }}</a>
+            | <a href="/delete/badger/{{ badger.id }}">Delete badger {{ badger.id }}</a>
+        </p>
+    {% endif %}
+
     <hr>
+
 {% endfor %}
 
 {% endblock %}
