@@ -17,6 +17,10 @@ security:
             lazy: true
             provider: app_user_provider
 
+            pattern: ^/
+            form_login:
+                login_path: badger_show_all
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -28,6 +32,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: '^/create', roles: ROLE_USER }
 
 when@test:
     security:
