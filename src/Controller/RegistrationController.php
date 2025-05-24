@@ -67,7 +67,7 @@ class RegistrationController extends AbstractController
                     'success',
                     'User created.'
                 );
-                return $this->redirectToRoute('badger_show_all');
+                return $this->redirectToRoute('app_login');
             }
         }
 
