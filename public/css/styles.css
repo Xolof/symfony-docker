@@ -1,4 +1,5 @@
 :root {
+  --spacing-sm: 0.7em;
   --spacing-md: 1em;
   --spacing-xl: 2em;
   --spacing-xxl: 4em;
@@ -38,6 +39,13 @@
   border-color: #f5c6cb;
   color: #721c24;
   padding: var(--spacing-md) var(--spacing-xl);
+}
+
+p.error {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+  padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .burger.pseudo.button {
