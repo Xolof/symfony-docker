@@ -54,6 +54,9 @@ services:
       - database_data:/var/lib/mysql:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/mysql:rw
+
+      # This maps the init script for the db to an entrypoint inside the container.
+      # If we want the script to be executed again we have to run: docker compose down -v && docker compose up --build --wait
       - ./docker/db/init:/docker-entrypoint-initdb.d
 
 ###< doctrine/doctrine-bundle ###
