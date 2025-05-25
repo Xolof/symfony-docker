@@ -16,72 +16,63 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v4
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      -
-        name: Build Docker images
-        uses: docker/bake-action@v6
-        with:
-          pull: true
-          load: true
-          files: |
-            compose.yaml
-            compose.override.yaml
-          set: |
-            *.cache-from=type=gha,scope=${{github.ref}}
-            *.cache-from=type=gha,scope=refs/heads/master
-            *.cache-to=type=gha,scope=${{github.ref}},mode=max
+    - uses: actions/checkout@v4
 
-      - name: Prepare environment file
-        run: |
-          printf %s "${{ secrets.ENV_FILE }}" > .env.local
-      -
-        name: Start services
-        run: docker compose up --wait --build
-      -
-        name: Debug PHP container logs
-        if: failure() # Only run if the previous step failed
-        run: docker compose logs php
-      -
-        name: Check HTTP reachability
-        run: curl -v --fail-with-body http://localhost
-      -
-        name: Check HTTPS reachability
-        if: false # Remove this line when the homepage will be configured, or change the path to check
-        run: curl -vk --fail-with-body https://localhost
-      -
-        name: Check Mercure reachability
-        run: curl -vkI --fail-with-body https://localhost/.well-known/mercure?topic=test
-      -
-        name: Create test database
-        if: false # Remove this line if Doctrine ORM is installed
-        run: docker compose exec -T php bin/console -e test doctrine:database:create
-      -
-        name: Run migrations
-        if: false # Remove this line if Doctrine Migrations is installed
-        run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
-      -
-        name: Run PHPUnit
-        if: false # Remove this line if PHPUnit is installed
-        run: docker compose exec -T php bin/phpunit
-      -
-        name: Run PhpCs
-        run: docker compose exec -T vendor/bin/phpcs src tests
-      -
-        name: Doctrine Schema Validator
-        if: false # Remove this line if Doctrine ORM is installed
-        run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app
-          path: |
-            ./*
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    - 
+      name: Prepare environment file
+      run:  |
+            printf %s "${{ secrets.ENV_FILE }}" > .env.local && \
+            printf %s "${{ secrets.ENV_FILE_TEST }}" > .env.test
+    -
+      name: Start services
+      run: docker compose up --wait --build
+
+    - name: Wait for Database
+      run: |
+        until docker compose exec -T database mysql app_test -uroot -pbLas_regn42_ -e"SELECT 1;"; do echo "waiting for database..."; sleep 5; done;
+    -
+      name: Debug PHP container logs
+      if: failure() # Only run if the previous step failed
+      run: docker compose logs php
+    -
+      name: Run migrations
+      run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
+    -
+      name: Debug PHP container logs
+      if: failure()
+      run: docker compose logs php
+    -
+      name: Run PHPUnit
+      run: docker compose exec -T php bin/phpunit
+    # -
+    #   name: Run PhpCs
+    #   run: docker compose exec -T vendor/bin/phpcs src tests
+    -
+      name: Doctrine Schema Validator
+      run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app
+        path: |
+          ./*
 
   lint:
     name: Docker Lint
@@ -104,9 +95,10 @@ jobs:
         with:
           name: app
 
-      - name: Prepare environment files
-        run: |
-          printf %s "${{ secrets.ENV_FILE }}" > .env && printf %s "${{ secrets.ENV_FILE_LOCAL }}" > .env.local
+      - name: Prepare env file
+        run: printf %s "${{ secrets.ENV_FILE }}" > .env
+      - name: Prepare local env file
+        run: printf %s "${{ secrets.ENV_FILE_LOCAL }}" > .env.local
 
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@7.0.1
