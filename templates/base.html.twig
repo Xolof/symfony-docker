@@ -24,14 +24,15 @@
             <label for="bmenub" class="burger pseudo button">&#8801;</label>
 
             <div class="menu">
-                <a href="/">Badger list</a>
+                <a href="{{ path('app_home') }}">Badger list</a>
                 {% if is_granted('ROLE_USER') %}
-                    <a href="/create/badger">Add badger</a>
-                    <a href="/logout">Logout</a>
+                    <a href="{{ path('app_create_badger') }}">Add badger</a>
+                    <a href="{{ path('admin_home') }}">Administrate users</a>
+                    <a href="{{ path('app_logout') }}">Logout</a>
                 {% endif %}
                 {% if not is_granted('ROLE_USER') %}
-                    <a href="/login">Login</a>
-                    <a href="/register">Register</a>
+                    <a href="{{ path('app_login') }}">Login</a>
+                    <a href="{{ path('register') }}">Register</a>
                 {% endif %}
             </div>
         </nav>
