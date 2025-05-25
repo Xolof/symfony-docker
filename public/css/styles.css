@@ -34,6 +34,12 @@
   color: #155724;
 }
 
+.flash.info {
+  background-color: #d4d4ed;
+  border-color: #c3c5e6;
+  color: #161557;
+}
+
 .flash.error, ul.error, .alert-danger {
   background-color: #f8d7da;
   border-color: #f5c6cb;
