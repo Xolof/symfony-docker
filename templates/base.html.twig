@@ -27,7 +27,9 @@
                 <a href="{{ path('app_home') }}">Badger list</a>
                 {% if is_granted('ROLE_USER') %}
                     <a href="{{ path('app_create_badger') }}">Add badger</a>
-                    <a href="{{ path('admin_home') }}">Administrate users</a>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <a href="{{ path('admin_home') }}">Administrate users</a>
+                    {% endif %}
                     <a href="{{ path('app_logout') }}">Logout</a>
                 {% endif %}
                 {% if not is_granted('ROLE_USER') %}
