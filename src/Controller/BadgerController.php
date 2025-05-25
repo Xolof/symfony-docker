@@ -91,7 +91,8 @@ class BadgerController extends AbstractController
         }
 
         return $this->render("badger/edit.html.twig", [
-            "form" => $form
+            "form" => $form,
+            "errors" => $errors ?? null
         ]);
     }
 
