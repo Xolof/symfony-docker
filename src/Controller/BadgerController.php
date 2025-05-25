@@ -26,12 +26,14 @@ class BadgerController extends AbstractController
             );
         }
 
-        return $this->render("badger/hello.html.twig", [
+        return $this->render(
+            "badger/hello.html.twig", [
             "name" => $badger->getName(),
             "continent" => $badger->getContinent(),
             "description" => $badger->getDescription()
 
-        ]);
+            ]
+        );
     }
 
     #[Route('/', name: 'app_home')]
@@ -44,9 +46,11 @@ class BadgerController extends AbstractController
             ->getQuery()
             ->execute();
 
-        return $this->render("badger/list.html.twig", [
+        return $this->render(
+            "badger/list.html.twig", [
             "badgers" => $badgers
-        ]);
+            ]
+        );
     }
 
     #[Route('/edit/badger/{id}', name: 'badger_edit')]
@@ -90,10 +94,12 @@ class BadgerController extends AbstractController
             }
         }
 
-        return $this->render("badger/edit.html.twig", [
+        return $this->render(
+            "badger/edit.html.twig", [
             "form" => $form,
             "errors" => $errors ?? null
-        ]);
+            ]
+        );
     }
 
 
@@ -109,15 +115,23 @@ class BadgerController extends AbstractController
         }
 
         $form = $this->createFormBuilder()
-            ->add('name', TextType::class, [ 'data' => $badger->getName(),
-            'attr' => [ 'disabled' => true ] ])
-            ->add('continent', TextType::class, [ 'data' => $badger->getContinent(),
-            'attr' => [ 'disabled' => true ] ])
-            ->add('description', TextareaType::class, [ 'data' => $badger->getDescription(),
-            'attr' => [ 'disabled' => true ] ])
-            ->add('save', SubmitType::class,
+            ->add(
+                'name', TextType::class, [ 'data' => $badger->getName(),
+                'attr' => [ 'disabled' => true ] ]
+            )
+            ->add(
+                'continent', TextType::class, [ 'data' => $badger->getContinent(),
+                'attr' => [ 'disabled' => true ] ]
+            )
+            ->add(
+                'description', TextareaType::class, [ 'data' => $badger->getDescription(),
+                'attr' => [ 'disabled' => true ] ]
+            )
+            ->add(
+                'save', SubmitType::class,
                 [ 'label' => 'I understand, delete this badger',
-                'attr' => [ 'class' => 'btn-danger' ]])
+                'attr' => [ 'class' => 'btn-danger' ]]
+            )
             ->getForm();
 
 
@@ -138,8 +152,10 @@ class BadgerController extends AbstractController
             }
         }
 
-        return $this->render("badger/delete.html.twig", [
+        return $this->render(
+            "badger/delete.html.twig", [
             "form" => $form
-        ]);
+            ]
+        );
     }
 }

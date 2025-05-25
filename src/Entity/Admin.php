@@ -35,9 +35,11 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The raw password
      */
-    #[Assert\PasswordStrength([
+    #[Assert\PasswordStrength(
+        [
         'minScore' => Assert\PasswordStrength::STRENGTH_WEAK
-    ])]
+        ]
+    )]
     private ?string $rawPassword = null;
 
     /**

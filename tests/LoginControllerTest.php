@@ -26,7 +26,9 @@ class LoginControllerTest extends WebTestCase
         $em->flush();
 
         // Create a Admin fixture
-        /** @var UserPasswordHasherInterface $passwordHasher */
+        /**
+         * @var UserPasswordHasherInterface $passwordHasher
+        */
         $passwordHasher = $container->get('security.user_password_hasher');
 
         $user = (new Admin())->setEmail('email@example.com');
@@ -47,10 +49,12 @@ class LoginControllerTest extends WebTestCase
         $this->client->request('GET', '/login');
         self::assertResponseIsSuccessful();
 
-        $this->client->submitForm('Sign in', [
+        $this->client->submitForm(
+            'Sign in', [
             '_username' => 'doesNotExist@example.com',
             '_password' => 'password',
-        ]);
+            ]
+        );
 
         self::assertResponseRedirects('/login');
         $this->client->followRedirect();
@@ -62,10 +66,12 @@ class LoginControllerTest extends WebTestCase
         $this->client->request('GET', '/login');
         self::assertResponseIsSuccessful();
 
-        $this->client->submitForm('Sign in', [
+        $this->client->submitForm(
+            'Sign in', [
             '_username' => 'email@example.com',
             '_password' => 'bad-password',
-        ]);
+            ]
+        );
 
         self::assertResponseRedirects('/login');
         $this->client->followRedirect();
@@ -74,10 +80,12 @@ class LoginControllerTest extends WebTestCase
         self::assertSelectorTextContains('.error', 'Your account has not yet been activated.');
 
         // Success - Login with valid credentials is allowed.
-        $this->client->submitForm('Sign in', [
+        $this->client->submitForm(
+            'Sign in', [
             '_username' => 'active@example.com',
             '_password' => 'password',
-        ]);
+            ]
+        );
 
         // self::assertResponseRedirects('/');
         $this->client->followRedirect();

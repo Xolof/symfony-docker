@@ -22,9 +22,11 @@ class AdminController extends AbstractController
             ->getQuery()
             ->execute();
 
-        return $this->render("admin/list.html.twig", [
+        return $this->render(
+            "admin/list.html.twig", [
             "users" => $users
-        ]);
+            ]
+        );
     }
 
 

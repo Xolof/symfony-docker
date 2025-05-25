@@ -71,10 +71,12 @@ class RegistrationController extends AbstractController
             }
         }
 
-        return $this->render('register/index.html.twig', [
+        return $this->render(
+            'register/index.html.twig', [
             'title' => "Register a new user",
             'form' => $form,
             'errors' => $errors ?? null
-        ]);
+            ]
+        );
     }
 }

@@ -20,8 +20,7 @@ final class CreateBadgerController extends AbstractController
         EntityManagerInterface $entity_manager,
         ValidatorInterface $validator,
         Request $request
-    ): Response
-    {
+    ): Response {
         $form = $this->createFormBuilder()
             ->add('name', TextType::class)
             ->add('continent', TextType::class)
@@ -52,10 +51,12 @@ final class CreateBadgerController extends AbstractController
             }
         }
 
-        return $this->render('create_badger/index.html.twig', [
+        return $this->render(
+            'create_badger/index.html.twig', [
             'message' => "Create badger",
             'form' => $form,
             'errors' => $errors ?? null
-        ]);
+            ]
+        );
     }
 }
