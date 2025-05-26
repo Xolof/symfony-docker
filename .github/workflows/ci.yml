@@ -59,10 +59,13 @@ jobs:
       run: docker compose logs php
     -
       name: Run Pint
-      run: docker compose exec -T vendor/bin/pint src templates config tests
+      run: docker compose exec -T php vendor/bin/pint src templates config tests
     -
       name: Run Rector
-      run: docker compose exec -T vendor/bin/rector src templates config tests
+      run: docker compose exec -T php vendor/bin/rector src templates config tests
+    -
+      name: Run PhpStan
+      run: docker compose exec -T php vendor/bin/phpstan src
     -
       name: Run PHPUnit
       run: docker compose exec -T php bin/phpunit
