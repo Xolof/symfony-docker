@@ -94,3 +94,11 @@ input[type=text]:disabled, textarea:disabled {
   min-width: 100%;
   min-height: 150px;
 }
+
+.forgot_password_link {
+  margin-left: var(--spacing-md);
+}
+
+.btn-lg {
+  margin-top: var(--spacing-sm);
+}
