@@ -25,9 +25,6 @@ jobs:
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
-    -
-      name: Run Composer Install
-      run: docker compose exec -T php composer install
 
     - name: Cache Composer packages
       id: composer-cache
@@ -53,6 +50,9 @@ jobs:
       name: Debug PHP container logs
       if: failure() # Only run if the previous step failed
       run: docker compose logs php
+    -
+      name: Run Composer Install
+      run: docker compose exec -T php composer install
     -
       name: Run migrations
       run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
