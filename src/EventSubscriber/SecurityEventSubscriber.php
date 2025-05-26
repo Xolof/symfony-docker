@@ -9,9 +9,7 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 class SecurityEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly RequestStack $requestStack)
-    {
-    }
+    public function __construct(private readonly RequestStack $requestStack) {}
 
     public static function getSubscribedEvents(): array
     {

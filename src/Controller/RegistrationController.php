@@ -16,9 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(protected EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(protected EntityManagerInterface $entityManager) {}
 
     #[Route('/register', name: 'register')]
     public function index(UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, EntityManagerInterface $entity_manager, Request $request): Response
