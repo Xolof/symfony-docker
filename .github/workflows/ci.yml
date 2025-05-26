@@ -58,11 +58,14 @@ jobs:
       if: failure()
       run: docker compose logs php
     -
+      name: Run Pint
+      run: docker compose exec -T vendor/bin/pint src templates config tests
+    -
+      name: Run Rector
+      run: docker compose exec -T vendor/bin/rector src templates config tests
+    -
       name: Run PHPUnit
       run: docker compose exec -T php bin/phpunit
-    # -
-    #   name: Run PhpCs
-    #   run: docker compose exec -T vendor/bin/phpcs src tests
     -
       name: Doctrine Schema Validator
       run: docker compose exec -T php bin/console -e test doctrine:schema:validate
