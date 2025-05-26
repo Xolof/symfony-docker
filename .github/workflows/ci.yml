@@ -41,7 +41,8 @@ jobs:
             printf %s "${{ secrets.ENV_FILE_TEST }}" > .env.test
     -
       name: Start services
-      run: docker compose up --wait --build
+      # run: docker compose up --wait --build
+      run: docker compose -f compose.yaml -f compose.override.yaml up --wait --build
 
     - name: Wait for Database
       run: |
