@@ -4,16 +4,16 @@ namespace App\Entity;
 
 use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints;
 
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
 #[ORM\Table(name: '`admin`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[Constraints\UniqueEntity(fields: ['email'], message: 'The email {{ value }} is already in use.')]
-class Admin implements UserInterface, PasswordAuthenticatedUserInterface
+class Admin implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -37,7 +37,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[Assert\PasswordStrength(
         [
-        'minScore' => Assert\PasswordStrength::STRENGTH_WEAK
+            'minScore' => Assert\PasswordStrength::STRENGTH_WEAK,
         ]
     )]
     private ?string $rawPassword = null;
@@ -48,7 +48,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(options: [ "default" => false ])]
+    #[ORM\Column(options: ['default' => false])]
     private ?bool $isActive = false;
 
     public function getId(): ?int
@@ -91,7 +91,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param list<string> $roles
+     * @param  list<string>  $roles
      */
     public function setRoles(array $roles): static
     {

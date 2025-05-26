@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Badger;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class BadgerController extends AbstractController
@@ -20,17 +20,17 @@ class BadgerController extends AbstractController
     {
         $badger = $entityManager->getRepository(Badger::class)->find($id);
 
-        if (!$badger) {
+        if (! $badger) {
             throw $this->createNotFoundException(
-                'No badger found for id ' . $id
+                'No badger found for id '.$id
             );
         }
 
         return $this->render(
-            "badger/hello.html.twig", [
-            "name" => $badger->getName(),
-            "continent" => $badger->getContinent(),
-            "description" => $badger->getDescription()
+            'badger/hello.html.twig', [
+                'name' => $badger->getName(),
+                'continent' => $badger->getContinent(),
+                'description' => $badger->getDescription(),
 
             ]
         );
@@ -47,8 +47,8 @@ class BadgerController extends AbstractController
             ->execute();
 
         return $this->render(
-            "badger/list.html.twig", [
-            "badgers" => $badgers
+            'badger/list.html.twig', [
+                'badgers' => $badgers,
             ]
         );
     }
@@ -58,27 +58,26 @@ class BadgerController extends AbstractController
     {
         $badger = $entityManager->getRepository(Badger::class)->find($id);
 
-        if (!$badger) {
+        if (! $badger) {
             throw $this->createNotFoundException(
-                'No badger found for id ' . $id
+                'No badger found for id '.$id
             );
         }
 
         $form = $this->createFormBuilder()
-            ->add('name', TextType::class, [ 'data' => $badger->getName() ])
-            ->add('continent', TextType::class, [ 'data' => $badger->getContinent() ])
-            ->add('description', TextareaType::class, [ 'data' => $badger->getDescription() ])
+            ->add('name', TextType::class, ['data' => $badger->getName()])
+            ->add('continent', TextType::class, ['data' => $badger->getContinent()])
+            ->add('description', TextareaType::class, ['data' => $badger->getDescription()])
             ->add('save', SubmitType::class, ['label' => 'Save Badger'])
             ->getForm();
-
 
         $form->handleRequest($request);
         $formData = $form->getData();
 
         if ($form->isSubmitted()) {
-            $badger->setName($formData["name"]);
-            $badger->setContinent($formData["continent"]);
-            $badger->setDescription($formData["description"]);
+            $badger->setName($formData['name']);
+            $badger->setContinent($formData['continent']);
+            $badger->setDescription($formData['description']);
 
             $errors = $validator->validate($badger);
 
@@ -90,50 +89,49 @@ class BadgerController extends AbstractController
                     'success',
                     'Your changes were saved!'
                 );
+
                 return $this->redirectToRoute('badger_edit', ['id' => $id]);
             }
         }
 
         return $this->render(
-            "badger/edit.html.twig", [
-            "form" => $form,
-            "errors" => $errors ?? null
+            'badger/edit.html.twig', [
+                'form' => $form,
+                'errors' => $errors ?? null,
             ]
         );
     }
-
 
     #[Route('/delete/badger/{id}', name: 'badger_delete')]
     public function delete(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager, int $id): Response
     {
         $badger = $entityManager->getRepository(Badger::class)->find($id);
 
-        if (!$badger) {
+        if (! $badger) {
             throw $this->createNotFoundException(
-                'No badger found for id ' . $id
+                'No badger found for id '.$id
             );
         }
 
         $form = $this->createFormBuilder()
             ->add(
-                'name', TextType::class, [ 'data' => $badger->getName(),
-                'attr' => [ 'disabled' => true ] ]
+                'name', TextType::class, ['data' => $badger->getName(),
+                    'attr' => ['disabled' => true]]
             )
             ->add(
-                'continent', TextType::class, [ 'data' => $badger->getContinent(),
-                'attr' => [ 'disabled' => true ] ]
+                'continent', TextType::class, ['data' => $badger->getContinent(),
+                    'attr' => ['disabled' => true]]
             )
             ->add(
-                'description', TextareaType::class, [ 'data' => $badger->getDescription(),
-                'attr' => [ 'disabled' => true ] ]
+                'description', TextareaType::class, ['data' => $badger->getDescription(),
+                    'attr' => ['disabled' => true]]
             )
             ->add(
                 'save', SubmitType::class,
-                [ 'label' => 'I understand, delete this badger',
-                'attr' => [ 'class' => 'btn-danger' ]]
+                ['label' => 'I understand, delete this badger',
+                    'attr' => ['class' => 'btn-danger']]
             )
             ->getForm();
-
 
         $form->handleRequest($request);
 
@@ -148,13 +146,14 @@ class BadgerController extends AbstractController
                     'success',
                     'Item deleted!'
                 );
+
                 return $this->redirectToRoute('app_home');
             }
         }
 
         return $this->render(
-            "badger/delete.html.twig", [
-            "form" => $form
+            'badger/delete.html.twig', [
+                'form' => $form,
             ]
         );
     }

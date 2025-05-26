@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Admin;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
@@ -23,12 +23,11 @@ class AdminController extends AbstractController
             ->execute();
 
         return $this->render(
-            "admin/list.html.twig", [
-            "users" => $users
+            'admin/list.html.twig', [
+                'users' => $users,
             ]
         );
     }
-
 
     #[Route('/admin/activate/user/{id}', name: 'admin_activate_user')]
     public function activate(int $id, EntityManagerInterface $entityManager): Response
@@ -36,7 +35,7 @@ class AdminController extends AbstractController
         $user = $entityManager->getRepository(Admin::class)
             ->find($id);
 
-        if (!$user->isActive()) {
+        if (! $user->isActive()) {
             $user->setIsActive(true);
             $entityManager->persist($user);
             $entityManager->flush();
@@ -44,13 +43,15 @@ class AdminController extends AbstractController
                 'success',
                 'User activated!'
             );
+
             return $this->redirectToRoute('admin_home');
-        };
+        }
 
         $this->addFlash(
             'info',
             'That user is already activated.'
         );
+
         return $this->redirectToRoute('admin_home');
     }
 
@@ -60,12 +61,12 @@ class AdminController extends AbstractController
         $user = $entityManager->getRepository(Admin::class)
             ->find($id);
 
-        if (!$user) {
-            throw new NotFoundHttpException("User with id $id not found.");   
+        if (! $user) {
+            throw new NotFoundHttpException("User with id $id not found.");
         }
 
-        if (in_array("ROLE_SUPER_ADMIN", $user->getRoles())) {
-            throw new AccessDeniedHttpException("Operation not allowed.");
+        if (in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
+            throw new AccessDeniedHttpException('Operation not allowed.');
         }
 
         $entityManager->remove($user);
@@ -75,6 +76,7 @@ class AdminController extends AbstractController
             'success',
             'User deleted!'
         );
+
         return $this->redirectToRoute('admin_home');
     }
 }

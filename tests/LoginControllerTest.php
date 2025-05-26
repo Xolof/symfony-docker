@@ -28,14 +28,14 @@ class LoginControllerTest extends WebTestCase
         // Create a Admin fixture
         /**
          * @var UserPasswordHasherInterface $passwordHasher
-        */
+         */
         $passwordHasher = $container->get('security.user_password_hasher');
 
-        $user = (new Admin())->setEmail('email@example.com');
+        $user = (new Admin)->setEmail('email@example.com');
         $user->setPassword($passwordHasher->hashPassword($user, 'password'));
         $em->persist($user);
 
-        $activeUser = (new Admin())->setEmail('active@example.com');
+        $activeUser = (new Admin)->setEmail('active@example.com');
         $activeUser->setPassword($passwordHasher->hashPassword($user, 'password'));
         $activeUser->setIsActive(true);
         $em->persist($user);
@@ -43,7 +43,7 @@ class LoginControllerTest extends WebTestCase
         $em->flush();
     }
 
-    public function testLogin(): void
+    public function test_login(): void
     {
         // Denied - Can't login with invalid email address.
         $this->client->request('GET', '/login');
@@ -51,8 +51,8 @@ class LoginControllerTest extends WebTestCase
 
         $this->client->submitForm(
             'Sign in', [
-            '_username' => 'doesNotExist@example.com',
-            '_password' => 'password',
+                '_username' => 'doesNotExist@example.com',
+                '_password' => 'password',
             ]
         );
 
@@ -68,8 +68,8 @@ class LoginControllerTest extends WebTestCase
 
         $this->client->submitForm(
             'Sign in', [
-            '_username' => 'email@example.com',
-            '_password' => 'bad-password',
+                '_username' => 'email@example.com',
+                '_password' => 'bad-password',
             ]
         );
 
@@ -82,8 +82,8 @@ class LoginControllerTest extends WebTestCase
         // Success - Login with valid credentials is allowed.
         $this->client->submitForm(
             'Sign in', [
-            '_username' => 'active@example.com',
-            '_password' => 'password',
+                '_username' => 'active@example.com',
+                '_password' => 'password',
             ]
         );
 

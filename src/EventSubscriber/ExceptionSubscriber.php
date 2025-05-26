@@ -2,17 +2,18 @@
 
 namespace App\EventSubscriber;
 
+use App\Security\Exceptions\NotActivatedException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use App\Security\Exceptions\NotActivatedException;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
     private $urlGenerator;
+
     private $requestStack;
 
     public function __construct(UrlGeneratorInterface $urlGenerator, RequestStack $requestStack)

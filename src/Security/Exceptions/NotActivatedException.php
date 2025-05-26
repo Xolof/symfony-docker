@@ -2,7 +2,4 @@
 
 namespace App\Security\Exceptions;
 
-class NotActivatedException extends \Exception
-{
-
-}
+class NotActivatedException extends \Exception {}

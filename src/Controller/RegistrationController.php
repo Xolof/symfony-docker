@@ -2,26 +2,25 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Admin;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationController extends AbstractController
 {
-
     protected EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;        
+        $this->entityManager = $entityManager;
     }
 
     #[Route('/register', name: 'register')]
@@ -36,14 +35,14 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $admin = new Admin();
+            $admin = new Admin;
             $roles = $admin->getRoles();
             // $roles[] = "ROLE_SUPER_ADMIN";
 
             $formData = $form->getData();
-            $email = $formData["email"];
+            $email = $formData['email'];
 
-            $plaintextPassword = $formData["password"];
+            $plaintextPassword = $formData['password'];
 
             $admin->validateRawPassword($plaintextPassword);
 
@@ -67,15 +66,16 @@ class RegistrationController extends AbstractController
                     'success',
                     'User created.'
                 );
+
                 return $this->redirectToRoute('app_login');
             }
         }
 
         return $this->render(
             'register/index.html.twig', [
-            'title' => "Register a new user",
-            'form' => $form,
-            'errors' => $errors ?? null
+                'title' => 'Register a new user',
+                'form' => $form,
+                'errors' => $errors ?? null,
             ]
         );
     }

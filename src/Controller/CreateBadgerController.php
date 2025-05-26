@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Badger;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class CreateBadgerController extends AbstractController
 {
@@ -32,10 +32,10 @@ final class CreateBadgerController extends AbstractController
         $formData = $form->getData();
 
         if ($form->isSubmitted()) {
-            $badger = new Badger();
-            $badger->setName($formData["name"]);
-            $badger->setContinent($formData["continent"]);
-            $badger->setDescription($formData["description"]);
+            $badger = new Badger;
+            $badger->setName($formData['name']);
+            $badger->setContinent($formData['continent']);
+            $badger->setDescription($formData['description']);
 
             $errors = $validator->validate($badger);
 
@@ -47,15 +47,16 @@ final class CreateBadgerController extends AbstractController
                     'success',
                     'Your changes were saved!'
                 );
+
                 return $this->redirectToRoute('app_home');
             }
         }
 
         return $this->render(
             'create_badger/index.html.twig', [
-            'message' => "Create badger",
-            'form' => $form,
-            'errors' => $errors ?? null
+                'message' => 'Create badger',
+                'form' => $form,
+                'errors' => $errors ?? null,
             ]
         );
     }
