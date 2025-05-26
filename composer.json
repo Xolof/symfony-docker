@@ -82,6 +82,7 @@
         }
     },
     "require-dev": {
+        "laravel/pint": "^1.22",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "*",
         "symfony/browser-kit": "7.2.*",
