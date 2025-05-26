@@ -25,6 +25,9 @@ jobs:
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
+    -
+      name: Run Composer Install
+      run: docker compose exec -T php composer install
 
     - name: Cache Composer packages
       id: composer-cache
