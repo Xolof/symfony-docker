@@ -12,14 +12,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
-    private $urlGenerator;
-
-    private $requestStack;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator, RequestStack $requestStack)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator, private readonly RequestStack $requestStack)
     {
-        $this->urlGenerator = $urlGenerator;
-        $this->requestStack = $requestStack;
     }
 
     public static function getSubscribedEvents(): array
