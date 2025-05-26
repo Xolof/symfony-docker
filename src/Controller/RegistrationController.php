@@ -59,7 +59,10 @@ class RegistrationController extends AbstractController
 
                 $this->addFlash(
                     'success',
-                    'User created.'
+                    <<<'MESSAGE'
+                        Your account has been successfully created.
+                        You will receive a notification email upon activation.
+                    MESSAGE
                 );
 
                 return $this->redirectToRoute('app_login');
