@@ -83,6 +83,10 @@ h1, h2, h3, h4, h5, p, li, label, a.brand, small {
   color: #D1D0CE;
 }
 
+h3 {
+  padding: var(--spacing-md) 0 0;
+}
+
 .burger.pseudo.button {
   color: #D1D0CE;
 }
