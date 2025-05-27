@@ -106,3 +106,16 @@ input[type=text]:disabled, textarea:disabled {
 .btn-lg {
   margin-top: var(--spacing-sm);
 }
+
+.logoutButton {
+  background: transparent;
+  color: #4c9be1;
+}
+
+.logoutButton:hover {
+  box-shadow: unset;
+}
+
+.logoutForm {
+  display: inline-block;
+}

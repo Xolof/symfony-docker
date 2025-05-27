@@ -30,7 +30,12 @@
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <a href="{{ path('admin_home') }}">Administrate users</a>
                     {% endif %}
-                    <a href="{{ path('app_logout') }}">Logout</a>
+
+                    <form action="{{ path('app_logout') }}" method="post" class="logoutForm">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                        <button class="logoutButton" type="submit">Logout</button>
+                    </form>
+
                 {% endif %}
                 {% if not is_granted('ROLE_USER') %}
                     <a href="{{ path('app_login') }}">Login</a>
