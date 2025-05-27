@@ -3,6 +3,8 @@
   --spacing-md: 1em;
   --spacing-xl: 2em;
   --spacing-xxl: 4em;
+
+  --link-color: #78B4E8;
 }
 
 .container {
@@ -86,7 +88,7 @@ h1, h2, h3, h4, h5, p, li, label, a.brand, small {
 }
 
 a {
-  color: #4c9be1;
+  color: var(--link-color);
 }
 
 input[type=text]:disabled, textarea:disabled {
@@ -109,7 +111,7 @@ input[type=text]:disabled, textarea:disabled {
 
 .logoutButton {
   background: transparent;
-  color: #4c9be1;
+  color: var(--link-color);
 }
 
 .logoutButton:hover {
