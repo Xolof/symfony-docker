@@ -22,10 +22,12 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
+                form_only: true
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: app_home
+                enable_csrf: true
 
             user_checker: App\Security\UserChecker
 
