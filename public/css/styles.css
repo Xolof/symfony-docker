@@ -34,10 +34,14 @@
   color: #155724;
 }
 
-.flash.info {
+.flash.info, .info {
   background-color: #d4d4ed;
   border-color: #c3c5e6;
   color: #161557;
+}
+
+.info {
+  padding: var(--spacing-md) var(--spacing-xl);
 }
 
 .flash.error, ul.error, .alert-danger {
