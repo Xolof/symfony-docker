@@ -36,7 +36,7 @@
 
                     <form action="{{ path('app_logout') }}" method="post" class="logoutForm">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
-                        <button class="logoutButton" type="submit">Logout</button>
+                        <button class="buttonStyledAsAnchorTag" type="submit">Logout</button>
                     </form>
 
                 {% endif %}
