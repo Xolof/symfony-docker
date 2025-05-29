@@ -3,15 +3,20 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+    {% if app.user %}
+        <div class="mb-3">
+            <p class="info">
+                You are logged in as {{ app.user.userIdentifier }}
+            </p>
+            <form action="{{ path('app_logout') }}" method="post" class="logoutForm">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                <button class="buttonStyledAsAnchorTag" type="submit">Logout</button>
+            </form>
+        </div>
+    {% endif %}
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-
-        {% if app.user %}
-            <div class="mb-3">
-                <p class="info">You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a></<p>
-            </div>
         {% endif %}
 
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
