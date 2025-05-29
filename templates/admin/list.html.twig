@@ -23,14 +23,14 @@
                     {% if not user.isActive %}
 
                         <form action="{{ path('admin_activate_user', { id: user.id }) }}" method="post" class="activateUserForm">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('admin_activate_user') }}">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('activate_user') }}">
                             <button class="buttonStyledAsAnchorTag" type="submit">Activate user</button>
                         </form> |
 
                     {% endif %}
 
                         <form action="{{ path('admin_delete_user', { id: user.id }) }}" method="post" class="deleteUserForm">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('admin_delete_user') }}">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_user') }}">
                             <button class="buttonStyledAsAnchorTag" type="submit">Delete user</button>
                         </form>
                 </section>

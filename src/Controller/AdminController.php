@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Admin;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +36,11 @@ class AdminController extends AbstractController
     #[Route('/admin/activate/user/{id}', name: 'admin_activate_user')]
     public function activate(int $id, EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer): Response
     {
+        $submittedToken = $request->getPayload()->get('_csrf_token');
+        if (! $this->isCsrfTokenValid('activate_user', $submittedToken)) {
+            throw new Exception('Invalid CSRF token.');
+        }
+
         $user = $entityManager->getRepository(Admin::class)
             ->find($id);
 
@@ -70,8 +76,13 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/delete/user/{id}', name: 'admin_delete_user')]
-    public function delete(int $id, EntityManagerInterface $entityManager): Response
+    public function delete(int $id, EntityManagerInterface $entityManager, Request $request): Response
     {
+        $submittedToken = $request->getPayload()->get('_csrf_token');
+        if (! $this->isCsrfTokenValid('delete_user', $submittedToken)) {
+            throw new Exception('Invalid CSRF token.');
+        }
+
         $user = $entityManager->getRepository(Admin::class)
             ->find($id);
 
