@@ -79,7 +79,8 @@ body, nav, nav .burger~.menu {
   background-color: #18202a;
 }
 
-h1, h2, h3, h4, h5, p, li, label, a.brand, small {
+h1, h2, h3, h4, h5, p, li, label, a.brand, small,
+.controls {
   color: #D1D0CE;
 }
 
@@ -114,15 +115,20 @@ input[type=text]:disabled, textarea:disabled {
   margin-top: var(--spacing-sm);
 }
 
-.logoutButton {
+.buttonStyledAsAnchorTag {
   background: transparent;
   color: var(--link-color);
 }
 
-.logoutButton:hover {
+.buttonStyledAsAnchorTag:hover {
   box-shadow: unset;
 }
 
 .logoutForm {
   display: inline-block;
+}
+
+.activateUserForm,
+.deleteUserForm {
+  display: inline;
 }

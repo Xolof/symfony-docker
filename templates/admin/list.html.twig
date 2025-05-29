@@ -19,10 +19,21 @@
     {% if is_granted('ROLE_USER') %}
         <p>
             {% if 'ROLE_SUPER_ADMIN' not in user.roles  %}
-                {% if not user.isActive %}
-                    <a href="/admin/activate/user/{{ user.id }}">Activate user {{ user.id }}</a> |
-                {% endif %}
-                 <a href="/admin/delete/user/{{ user.id }}">Delete user {{ user.id }}</a>
+                <section class="controls">
+                    {% if not user.isActive %}
+
+                        <form action="{{ path('admin_activate_user', { id: user.id }) }}" method="post" class="activateUserForm">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('admin_activate_user') }}">
+                            <button class="buttonStyledAsAnchorTag" type="submit">Activate user</button>
+                        </form> |
+
+                    {% endif %}
+
+                        <form action="{{ path('admin_delete_user', { id: user.id }) }}" method="post" class="deleteUserForm">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('admin_delete_user') }}">
+                            <button class="buttonStyledAsAnchorTag" type="submit">Delete user</button>
+                        </form>
+                </section>
             {% endif %}
         </p>
     {% endif %}
