@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="MyProject">
+    <description>PHP_CodeSniffer configuration for PSR-12</description>
+
+    <!-- Set the coding standard to PSR-12 -->
+    <rule ref="PSR12"/>
+
+    <!-- Directories to scan -->
+    <file>src/</file>
+    <file>tests/</file>
+
+    <!-- Exclude specific directories or files -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*.min.js</exclude-pattern>
+
+    <!-- Optional: Specify file extensions to check -->
+    <arg name="extensions" value="php"/>
+
+    <!-- Optional: Enable parallel processing for faster scans -->
+    <arg name="parallel" value="8"/>
+
+    <!-- Optional: Show progress and warnings -->
+    <arg value="p"/>
+    <arg value="n"/>
+
+    <!-- Optional: Customize specific rules (uncomment to use) -->
+    <!-- Example: Adjust line length limit -->
+    <!--
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+    -->
+
+    <!-- Optional: Exclude specific rules if needed -->
+    <!--
+    <rule ref="PSR12.Classes.ClassInstantiation">
+        <exclude name="PSR12.Classes.ClassInstantiation.MissingParentheses"/>
+    </rule>
+    -->
+</ruleset>
