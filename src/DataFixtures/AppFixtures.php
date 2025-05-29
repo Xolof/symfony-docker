@@ -10,6 +10,9 @@ use Faker\Factory as FakerFactory;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * Insert fake entities into the database
+     */
     public function load(ObjectManager $manager): void
     {
         $faker = FakerFactory::create();
@@ -17,7 +20,7 @@ class AppFixtures extends Fixture
         echo "Creating fake Badgers...\n";
 
         for ($i = 0; $i < 100; $i++) {
-            $badger = new Badger;
+            $badger = new Badger();
             $badger->setName($faker->name());
             $badger->setContinent($faker->name());
             $badger->setDescription($faker->realText(1200));
@@ -29,10 +32,9 @@ class AppFixtures extends Fixture
         echo "Creating fake Users...\n";
 
         for ($i = 0; $i < 100; $i++) {
-
             $password = implode('', $faker->randomElements(range('A', 'z'), 20));
 
-            $user = new Admin;
+            $user = new Admin();
 
             $user->setPassword($password);
             $user->setEmail($faker->email());

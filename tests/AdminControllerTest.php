@@ -22,6 +22,9 @@ class AdminControllerTest extends WebTestCase
 
     protected string $adminEmail;
 
+    /**
+     * Runs before each test.
+     */
     protected function setUp(): void
     {
         $this->client = static::createClient();
@@ -35,15 +38,12 @@ class AdminControllerTest extends WebTestCase
         }
         $this->em->flush();
 
-        /**
-         * @var UserPasswordHasherInterface $passwordHasher
-         */
         $passwordHasher = $container->get('security.user_password_hasher');
 
         $this->adminPassword = 'CyJsfuJ5IbXuXSMxuIVe6T2Lt';
         $this->adminEmail = 'superadmin@example.com';
 
-        $superAdmin = (new Admin)->setEmail($this->adminEmail);
+        $superAdmin = new Admin()->setEmail($this->adminEmail);
         $superAdmin->setPassword($passwordHasher->hashPassword($superAdmin, $this->adminPassword));
         $superAdmin->setRoles(['ROLE_USER', 'ROLE_SUPER_ADMIN']);
         $superAdmin->setIsActive(true);
@@ -52,10 +52,13 @@ class AdminControllerTest extends WebTestCase
         $this->em->flush();
     }
 
-    public function test_show_all(): void
+    /**
+     * Test showin a list of admins.
+     */
+    public function testShowAll(): void
     {
-        $admin1 = (new Admin)->setEmail('admin1@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(true);
-        $admin2 = (new Admin)->setEmail('admin2@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(false);
+        $admin1 = new Admin()->setEmail('admin1@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(true);
+        $admin2 = new Admin()->setEmail('admin2@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(false);
         $this->em->persist($admin1);
         $this->em->persist($admin2);
         $this->em->flush();
@@ -67,9 +70,12 @@ class AdminControllerTest extends WebTestCase
         self::assertStringContainsString('Administrate Users', $crawler->html());
     }
 
-    public function test_activate_user_success(): void
+    /**
+     * Test activating a user/admin.
+     */
+    public function testActivateUserSuccess(): void
     {
-        $admin = (new Admin)
+        $admin = new Admin()
             ->setEmail('test@example.com')
             ->setPassword('password')
             ->setRoles(['ROLE_USER'])
@@ -97,9 +103,12 @@ class AdminControllerTest extends WebTestCase
         self::assertTrue($updatedAdmin->isActive());
     }
 
-    public function test_cannot_activate_already_active_user(): void
+    /**
+     * Test activating an already active user.
+     */
+    public function testCannotActivateAlreadyActiveUser(): void
     {
-        $admin = (new Admin)->setEmail('test@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(true);
+        $admin = new Admin()->setEmail('test@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(true);
         $this->em->persist($admin);
         $this->em->flush();
         $adminId = $admin->getId();
@@ -112,9 +121,12 @@ class AdminControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(500);
     }
 
-    public function test_delete_user_success(): void
+    /**
+     * Test deleting a user.
+     */
+    public function testDeleteUserSuccess(): void
     {
-        $admin = (new Admin)->setEmail('test@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(true);
+        $admin = new Admin()->setEmail('test@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(true);
         $this->em->persist($admin);
         $this->em->flush();
         $adminId = $admin->getId();
@@ -134,7 +146,10 @@ class AdminControllerTest extends WebTestCase
         self::assertNull($deletedAdmin);
     }
 
-    public function test_cannot_delete_non_existent_user(): void
+    /**
+     * Test trying to delete a non existent user.
+     */
+    public function testCannotDeleteNonExistentUser(): void
     {
         $this->login();
 
@@ -144,9 +159,14 @@ class AdminControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(500);
     }
 
-    public function test_cannot_delete_super_admin_user(): void
+    /**
+     * Test that a super admin user can not be deleted.
+     * If the superadmin could be deleted that would mean
+     * the superadmin could delete their own account.
+     */
+    public function testCannotDeleteSuperAdminUser(): void
     {
-        $admin = (new Admin)->setEmail('newsuperadmin@example.com')->setPassword('password')->setRoles(['ROLE_SUPER_ADMIN'])->setIsActive(true);
+        $admin = new Admin()->setEmail('newsuperadmin@example.com')->setPassword('password')->setRoles(['ROLE_SUPER_ADMIN'])->setIsActive(true);
         $this->em->persist($admin);
         $this->em->flush();
         $adminId = $admin->getId();
@@ -157,6 +177,9 @@ class AdminControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(500);
     }
 
+    /**
+     * Helper function for logging in.
+     */
     protected function login(): void
     {
         $this->client->request('GET', '/login');
@@ -165,7 +188,8 @@ class AdminControllerTest extends WebTestCase
         $email = $this->adminEmail;
         $password = $this->adminPassword;
         $this->client->submitForm(
-            'Sign in', [
+            'Sign in',
+            [
                 '_username' => $email,
                 '_password' => $password,
             ]

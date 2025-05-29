@@ -28,16 +28,33 @@ class Badger
     #[Assert\Length(min: 100)]
     private ?string $description = null;
 
+    /**
+     * Gets the ID of the Badger entity.
+     *
+     * @return int|null The ID of the Badger, or null if not set
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Gets the name of the Badger.
+     *
+     * @return string|null The name of the Badger, or null if not set
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * Sets the name of the Badger.
+     *
+     * @param string $name The name to set
+     *
+     * @return self
+     */
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -45,11 +62,23 @@ class Badger
         return $this;
     }
 
+    /**
+     * Gets the continent of the Badger.
+     *
+     * @return string|null The continent of the Badger, or null if not set
+     */
     public function getContinent(): ?string
     {
         return $this->continent;
     }
 
+    /**
+     * Sets the continent of the Badger.
+     *
+     * @param string $continent The continent to set
+     *
+     * @return self
+     */
     public function setContinent(string $continent): static
     {
         $this->continent = $continent;
@@ -57,11 +86,23 @@ class Badger
         return $this;
     }
 
+    /**
+     * Gets the description of the Badger.
+     *
+     * @return string|null The description of the Badger, or null if not set
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * Sets the description of the Badger.
+     *
+     * @param string $description The description to set
+     *
+     * @return self
+     */
     public function setDescription(string $description): static
     {
         $this->description = $description;

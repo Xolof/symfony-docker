@@ -17,18 +17,36 @@ class ResetPasswordRequest implements ResetPasswordRequestInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    public function __construct(#[ORM\ManyToOne]
-        #[ORM\JoinColumn(nullable: false, name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-        private ?Admin $user, \DateTimeInterface $expiresAt, string $selector, string $hashedToken)
-    {
+    /**
+     * The constructor specifies ORM relations.
+     */
+    public function __construct(
+        #[ORM\ManyToOne]
+        #[ORM\JoinColumn(
+            nullable: false,
+            name: 'user_id',
+            referencedColumnName: 'id',
+            onDelete: 'CASCADE'
+        )]
+        private ?Admin $user,
+        \DateTimeInterface $expiresAt,
+        string $selector,
+        string $hashedToken
+    ) {
         $this->initialize($expiresAt, $selector, $hashedToken);
     }
 
+    /**
+     * Get the id of this ResetPasswordRequest
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get the user for this ResetPasswordRequest
+     */
     public function getUser(): Admin
     {
         return $this->user;

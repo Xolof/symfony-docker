@@ -17,14 +17,14 @@ class ResetPasswordControllerTest extends WebTestCase
 
     private AdminRepository $userRepository;
 
+    /**
+     * Runs before each test.
+     */
     protected function setUp(): void
     {
         $this->client = static::createClient();
-
-        // Ensure we have a clean database
         $container = static::getContainer();
 
-        /** @var EntityManagerInterface $em */
         $em = $container->get('doctrine')->getManager();
         $this->em = $em;
 
@@ -37,29 +37,27 @@ class ResetPasswordControllerTest extends WebTestCase
         $this->em->flush();
     }
 
-    public function test_reset_password_controller(): void
+    /**
+     * Test the whole flow of the ResetPasswordController.
+     */
+    public function testResetPasswordController(): void
     {
-        // Create a test user
-        $user = (new Admin)
+        $user = new Admin()
             ->setEmail('me@example.com')
             ->setPassword('a-test-password-that-will-be-changed-later');
         $this->em->persist($user);
         $this->em->flush();
 
-        // Test Request reset password page
         $this->client->request('GET', '/reset-password');
 
         self::assertResponseIsSuccessful();
         self::assertPageTitleContains('Reset your password');
 
-        // Submit the reset password form and test email message is queued / sent
-        $this->client->submitForm('Send password reset email', [
-            'reset_password_request_form[email]' => 'me@example.com',
-        ]);
+        $this->client->submitForm('Send password reset email', ['reset_password_request_form[email]' => 'me@example.com']);
 
         // Ensure the reset password email was sent
         // Use either assertQueuedEmailCount() || assertEmailCount() depending on your mailer setup
-        // self::assertQueuedEmailCount(1);
+        // self::assertQueuedEmailCount(1); //.
         self::assertEmailCount(1);
 
         self::assertCount(1, $messages = $this->getMailerMessages());
@@ -70,13 +68,11 @@ class ResetPasswordControllerTest extends WebTestCase
 
         self::assertResponseRedirects('/reset-password/check-email');
 
-        // Test check email landing page shows correct "expires at" time
         $crawler = $this->client->followRedirect();
 
         self::assertPageTitleContains('Password Reset Email Sent');
         self::assertStringContainsString('This link will expire in 1 hour', $crawler->html());
 
-        // Test the link sent in the email is valid
         $email = $messages[0]->toString();
         preg_match('#(/reset-password/reset/[a-zA-Z0-9]+)#', $email, $resetLink);
 
@@ -86,7 +82,6 @@ class ResetPasswordControllerTest extends WebTestCase
 
         $this->client->followRedirect();
 
-        // Test we can set a new password
         $this->client->submitForm('Reset password', [
             'change_password_form[plainPassword][first]' => 'newStrongPassword',
             'change_password_form[plainPassword][second]' => 'newStrongPassword',
@@ -98,7 +93,6 @@ class ResetPasswordControllerTest extends WebTestCase
 
         self::assertInstanceOf(Admin::class, $user);
 
-        /** @var UserPasswordHasherInterface $passwordHasher */
         $passwordHasher = static::getContainer()->get(UserPasswordHasherInterface::class);
         self::assertTrue($passwordHasher->isPasswordValid($user, 'newStrongPassword'));
     }

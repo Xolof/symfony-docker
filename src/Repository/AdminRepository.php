@@ -10,10 +10,18 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
+ * Repository for Admin.
+ * Can be used to make custom ORM functions.
+ *
  * @extends ServiceEntityRepository<Admin>
  */
 class AdminRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    /**
+     * Constructor
+     *
+     * @param ManagerRegistry $registry Contract related to Doctrine persistence.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Admin::class);
@@ -33,28 +41,27 @@ class AdminRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->getEntityManager()->flush();
     }
 
-    //    /**
-    //     * @return Admin[] Returns an array of Admin objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Admin
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    // **
+    // * @return Admin[] Returns an array of Admin objects
+    // */
+    // public function findByExampleField($value): array
+    // {
+    // return $this->createQueryBuilder('a')
+    // ->andWhere('a.exampleField = :val')
+    // ->setParameter('val', $value)
+    // ->orderBy('a.id', 'ASC')
+    // ->setMaxResults(10)
+    // ->getQuery()
+    // ->getResult()
+    // ;
+    // }
+    // public function findOneBySomeField($value): ?Admin
+    // {
+    // return $this->createQueryBuilder('a')
+    // ->andWhere('a.exampleField = :val')
+    // ->setParameter('val', $value)
+    // ->getQuery()
+    // ->getOneOrNullResult()
+    // ;
+    // }
 }

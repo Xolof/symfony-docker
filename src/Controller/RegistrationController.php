@@ -16,10 +16,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(protected EntityManagerInterface $entityManager) {}
-
+    /**
+     * Register a user.
+     */
     #[Route('/register', name: 'register')]
-    public function index(UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, EntityManagerInterface $entity_manager, Request $request): Response
+    public function index(UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, EntityManagerInterface $entityManager, Request $request): Response
     {
         $form = $this->createFormBuilder()
             ->add('email', TextType::class)
@@ -30,10 +31,9 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $admin = new Admin;
+            $admin = new Admin();
             $roles = $admin->getRoles();
             // $roles[] = "ROLE_SUPER_ADMIN";
-
             $formData = $form->getData();
             $email = $formData['email'];
 
@@ -50,12 +50,11 @@ class RegistrationController extends AbstractController
             $admin->setRoles($roles);
             $admin->setEmail($email);
             // $admin->setIsActive(false);
-
             $errors = $validator->validate($admin);
 
             if (count($errors) < 1) {
-                $this->entityManager->persist($admin);
-                $this->entityManager->flush();
+                $entityManager->persist($admin);
+                $entityManager->flush();
 
                 $this->addFlash(
                     'success',
@@ -70,7 +69,8 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render(
-            'register/index.html.twig', [
+            'register/index.html.twig',
+            [
                 'title' => 'Register a new user',
                 'form' => $form,
                 'errors' => $errors ?? null,

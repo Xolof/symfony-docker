@@ -27,13 +27,15 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $email = null;
 
     /**
-     * @var list<string> The user roles
+     * The user roles
+     *
+     * @var list<string>
      */
     #[ORM\Column]
     private array $roles = [];
 
     /**
-     * @var string The raw password
+     * The raw password
      */
     #[Assert\PasswordStrength(
         [
@@ -43,7 +45,7 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $rawPassword = null;
 
     /**
-     * @var string The hashed password
+     * The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
@@ -51,16 +53,27 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(options: ['default' => false])]
     private ?bool $isActive = false;
 
+    /**
+     * Get the ID of the admin
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get the email of the admin
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * Set the email of the admin
+     *
+     * @param string $email The email address
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -70,8 +83,6 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
 
     /**
      * A visual identifier that represents this user.
-     *
-     * @see UserInterface
      */
     public function getUserIdentifier(): string
     {
@@ -79,19 +90,23 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     }
 
     /**
-     * @see UserInterface
+     * Get the roles of the admin
+     *
+     * @return array<string>
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        // Guarantee every user at least has ROLE_USER.
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
     /**
-     * @param  list<string>  $roles
+     * Set the roles of the admin
+     *
+     * @param array<string> $roles The user roles
      */
     public function setRoles(array $roles): static
     {
@@ -101,13 +116,18 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     }
 
     /**
-     * @see PasswordAuthenticatedUserInterface
+     * Get the hashed password
      */
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
+    /**
+     * Validate the raw password
+     *
+     * @param string $rawPassword The raw password to validate
+     */
     public function validateRawPassword(string $rawPassword): static
     {
         $this->rawPassword = $rawPassword;
@@ -115,6 +135,11 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
+    /**
+     * Set the hashed password
+     *
+     * @param string $password The hashed password
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -123,19 +148,27 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     }
 
     /**
-     * @see UserInterface
+     * Erase temporary sensitive data
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // If you store any temporary, sensitive data on the user, clear it here.
+        // $this->plainPassword = null; //.
     }
 
+    /**
+     * Check if admin is active
+     */
     public function isActive(): ?bool
     {
         return $this->isActive;
     }
 
+    /**
+     * Set the active status of the admin
+     *
+     * @param bool $isActive The active status
+     */
     public function setIsActive(bool $isActive): static
     {
         $this->isActive = $isActive;

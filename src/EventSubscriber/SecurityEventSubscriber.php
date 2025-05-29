@@ -7,10 +7,23 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
+/**
+ * Subscribe to login and logout events and add flash messages.
+ */
 class SecurityEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly RequestStack $requestStack) {}
+    /**
+     * Constructor
+     *
+     * @param RequestStack $requestStack Used for adding flashmessage.
+     */
+    public function __construct(private readonly RequestStack $requestStack)
+    {
+    }
 
+    /**
+     * Define the events to subscribe to.
+     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -19,12 +32,18 @@ class SecurityEventSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * Set a flashmessage upon successful login.
+     */
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         $session = $this->requestStack->getSession();
         $session->getFlashBag()->add('success', 'You have successfully logged in!');
     }
 
+    /**
+     * Set a flashmessage upon successful loout.
+     */
     public function onLogout(LogoutEvent $event): void
     {
         $session = $this->requestStack->getSession();

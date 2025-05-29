@@ -24,6 +24,9 @@ class BadgerControllerTest extends WebTestCase
 
     protected string $adminEmail;
 
+    /**
+     * Runs before each test.
+     */
     protected function setUp(): void
     {
         $this->client = static::createClient();
@@ -46,7 +49,7 @@ class BadgerControllerTest extends WebTestCase
         $this->adminPassword = 'CyJsfuJ5IbXuXSMxuIVe6T2Lt';
         $this->adminEmail = 'superadmin@example.com';
 
-        $this->superAdmin = (new Admin)->setEmail($this->adminEmail);
+        $this->superAdmin = new Admin()->setEmail($this->adminEmail);
         $this->superAdmin->setPassword($passwordHasher->hashPassword($this->superAdmin, $this->adminPassword));
         $this->superAdmin->setRoles(['ROLE_USER', 'ROLE_SUPER_ADMIN']);
         $this->superAdmin->setIsActive(true);
@@ -55,9 +58,12 @@ class BadgerControllerTest extends WebTestCase
         $this->em->flush();
     }
 
-    public function test_show(): void
+    /**
+     * Test showing a specific badger.
+     */
+    public function testShow(): void
     {
-        $badger = (new Badger)
+        $badger = new Badger()
             ->setName('Honey Badger')
             ->setContinent('Africa')
             ->setDescription('Fearless creature');
@@ -75,7 +81,10 @@ class BadgerControllerTest extends WebTestCase
         self::assertStringContainsString('Fearless creature', $crawler->html());
     }
 
-    public function test_show_non_existent_badger(): void
+    /**
+     * Test trying to show a non existant badger.
+     */
+    public function testShowNonExistentBadger(): void
     {
         $this->login();
 
@@ -85,10 +94,13 @@ class BadgerControllerTest extends WebTestCase
         self::assertStringContainsString('No badger found for id 999', $this->client->getResponse()->getContent());
     }
 
-    public function test_show_all(): void
+    /**
+     * Test showing a list of all badgers.
+     */
+    public function testShowAll(): void
     {
-        $badger1 = (new Badger)->setName('Honey Badger')->setContinent('Africa')->setDescription('Fearless');
-        $badger2 = (new Badger)->setName('European Badger')->setContinent('Europe')->setDescription('Nocturnal');
+        $badger1 = new Badger()->setName('Honey Badger')->setContinent('Africa')->setDescription('Fearless');
+        $badger2 = new Badger()->setName('European Badger')->setContinent('Europe')->setDescription('Nocturnal');
         $this->em->persist($badger1);
         $this->em->persist($badger2);
         $this->em->flush();
@@ -102,7 +114,10 @@ class BadgerControllerTest extends WebTestCase
         self::assertStringContainsString('European Badger', $crawler->html());
     }
 
-    public function test_create_badger_success(): void
+    /**
+     * Test creating a badger.
+     */
+    public function testCreateBadgerSuccess(): void
     {
         $this->login();
 
@@ -132,7 +147,10 @@ class BadgerControllerTest extends WebTestCase
         self::assertEquals(trim($description), $badger->getDescription());
     }
 
-    public function test_create_badger_with_invalid_input(): void
+    /**
+     * Test that a badger can't be created with invalid input.
+     */
+    public function testCreateBadgerWithInvalidInput(): void
     {
         $this->login();
 
@@ -165,9 +183,12 @@ class BadgerControllerTest extends WebTestCase
         self::assertSelectorTextContains('.error', 'This value is too short. It should have 100 characters or more.');
     }
 
-    public function test_edit_badger_success(): void
+    /**
+     * Test editing a badger.
+     */
+    public function testEditBadgerSuccess(): void
     {
-        $badger = (new Badger)
+        $badger = new Badger()
             ->setName('Honey Badger')
             ->setContinent('Africa')
             ->setDescription('Fearless');
@@ -203,7 +224,10 @@ class BadgerControllerTest extends WebTestCase
         self::assertEquals($description, $updatedBadger->getDescription());
     }
 
-    public function test_edit_non_existent_badger(): void
+    /**
+     * Test editing non existent badger.
+     */
+    public function testEditNonExistentBadger(): void
     {
         $this->login();
 
@@ -213,14 +237,17 @@ class BadgerControllerTest extends WebTestCase
         self::assertStringContainsString('No badger found for id 999', $this->client->getResponse()->getContent());
     }
 
-    public function test_delete_badger_success(): void
+    /**
+     * Test deleting a badger.
+     */
+    public function testDeleteBadgerSuccess(): void
     {
         $description = trim(<<<'EOD'
             This is a new description. Asian badgers (specifically the Hog Badger, though the term often applies to several species) are medium-sized mammals found across a wide range of habitats in Asia, from forests to grasslands.
             Appearance: They look like a stocky badger, often with a distinctive white stripe on their face and black legs.
         EOD);
 
-        $badger = (new Badger)
+        $badger = new Badger()
             ->setName('Honey Badger')
             ->setContinent('Africa')
             ->setDescription($description);
@@ -245,7 +272,10 @@ class BadgerControllerTest extends WebTestCase
         self::assertNull($deletedBadger);
     }
 
-    public function test_delete_non_existent_badger(): void
+    /**
+     * Test deleting a badger that does not exist.
+     */
+    public function testDeleteNonExistentBadger(): void
     {
         $this->login();
 
@@ -255,6 +285,9 @@ class BadgerControllerTest extends WebTestCase
         self::assertStringContainsString('No badger found for id 999', $this->client->getResponse()->getContent());
     }
 
+    /**
+     * Helper function for logging in.
+     */
     protected function login(): void
     {
         $this->client->request('GET', '/login');

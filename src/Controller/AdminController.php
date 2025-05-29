@@ -16,6 +16,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
+    /**
+     * Show a list of all users.
+     * Only users with privilege "ROLE_SUPER_ADMIN" can access the admin routes,
+     * this is defined in the security config file.
+     */
     #[Route('/admin', name: 'admin_home')]
     public function showAll(EntityManagerInterface $entityManager): Response
     {
@@ -27,12 +32,14 @@ class AdminController extends AbstractController
             ->execute();
 
         return $this->render(
-            'admin/list.html.twig', [
-                'users' => $users,
-            ]
+            'admin/list.html.twig',
+            ['users' => $users]
         );
     }
 
+    /**
+     * Activate a user and send a notification email.
+     */
     #[Route('/admin/activate/user/{id}', name: 'admin_activate_user')]
     public function activate(int $id, EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer): Response
     {
@@ -56,7 +63,7 @@ class AdminController extends AbstractController
             $userEmail = $user->getEmail();
             $host = $request->getHost();
 
-            $email = (new Email)
+            $email = new Email()
                 ->from("admin@$host")
                 ->to($userEmail)
                 ->subject('Your account has been activated')
@@ -75,6 +82,9 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_home');
     }
 
+    /**
+     * Delete a user.
+     */
     #[Route('/admin/delete/user/{id}', name: 'admin_delete_user')]
     public function delete(int $id, EntityManagerInterface $entityManager, Request $request): Response
     {

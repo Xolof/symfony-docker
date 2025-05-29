@@ -17,6 +17,9 @@ class RegistrationControllerTest extends WebTestCase
 
     protected AdminRepository $adminRepository;
 
+    /**
+     * Runs before each test.
+     */
     protected function setUp(): void
     {
         $this->client = static::createClient();
@@ -25,14 +28,16 @@ class RegistrationControllerTest extends WebTestCase
         $this->em = $container->get('doctrine')->getManager();
         $this->adminRepository = $container->get(AdminRepository::class);
 
-        // Clean the admin table
         foreach ($this->adminRepository->findAll() as $admin) {
             $this->em->remove($admin);
         }
         $this->em->flush();
     }
 
-    public function test_register_success(): void
+    /**
+     * Test registering a user.
+     */
+    public function testRegisterSuccess(): void
     {
         $crawler = $this->client->request('GET', '/register');
         self::assertResponseIsSuccessful();
@@ -57,7 +62,10 @@ class RegistrationControllerTest extends WebTestCase
         self::assertTrue($passwordHasher->isPasswordValid($admin, 'StrongPassword123'));
     }
 
-    public function test_register_with_invalid_email(): void
+    /**
+     * Test that it is not possibel to register with an invalid email.
+     */
+    public function testRegisterWithInvalidEmail(): void
     {
         $crawler = $this->client->request('GET', '/register');
         self::assertResponseIsSuccessful();
@@ -77,7 +85,10 @@ class RegistrationControllerTest extends WebTestCase
         self::assertEmpty($this->adminRepository->findAll());
     }
 
-    public function test_register_with_invalid_password(): void
+    /**
+     * Test that it is not possibel to register with an invalid password.
+     */
+    public function testRegisterWithInvalidPassword(): void
     {
         $crawler = $this->client->request('GET', '/register');
         self::assertResponseIsSuccessful();
@@ -95,13 +106,16 @@ class RegistrationControllerTest extends WebTestCase
         self::assertEmpty($this->adminRepository->findAll());
     }
 
-    public function test_register_with_existing_email(): void
+    /**
+     * Test that it's impossible to register with an email which is already registered.
+     */
+    public function testRegisterWithExistingEmail(): void
     {
         $email = 'test@example.com';
         $passwordHasher = static::getContainer()->get(UserPasswordHasherInterface::class);
-        $admin = (new Admin)
+        $admin = new Admin()
             ->setEmail($email)
-            ->setPassword($passwordHasher->hashPassword(new Admin, 'StrongPassword123'))
+            ->setPassword($passwordHasher->hashPassword(new Admin(), 'StrongPassword123'))
             ->setRoles(['ROLE_USER']);
         $this->em->persist($admin);
         $this->em->flush();
