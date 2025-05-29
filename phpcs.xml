@@ -138,10 +138,6 @@
         <exclude name="PEAR.Commenting.FileComment.Missing"/>
     </rule>
 
-    <!-- <rule ref="PEAR.Commenting.FunctionComment.Missing">
-        <exclude name="PEAR.Commenting.FunctionComment.Missing"/>
-    </rule> -->
-
     <rule ref="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned">
         <exclude name="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned"/>
     </rule>
@@ -157,6 +153,21 @@
     <rule ref="PEAR.Functions.FunctionCallSignature">
         <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
         <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
+    </rule>
+
+    <rule ref="PEAR.Functions.FunctionCallSignature">
+        <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
+    </rule>
+
+    <rule ref="PEAR.Commenting.FunctionComment">
+        <exclude name="PEAR.Commenting.FunctionComment.MissingReturn"/>
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag"/>
+    </rule>
+
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceBeforeEquals"/>
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceAfterEquals"/>
     </rule>
 
     <!-- <rule ref="">
