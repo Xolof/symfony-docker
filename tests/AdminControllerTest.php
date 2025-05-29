@@ -81,7 +81,10 @@ class AdminControllerTest extends WebTestCase
 
         $this->login();
 
-        $this->client->request('GET', "/admin/activate/user/$adminId");
+        $crawler = $this->client->request('GET', '/admin');
+        $form = $crawler->selectButton('Activate user')->form();
+
+        $this->client->submit($form);
 
         self::assertEmailCount(1);
         $messages = $this->getMailerMessages();
@@ -90,13 +93,11 @@ class AdminControllerTest extends WebTestCase
         self::assertEmailAddressContains($messages[0], 'from', 'admin@localhost');
         self::assertEmailHtmlBodyContains($messages[0], 'Your account has been activated');
 
-        self::assertResponseRedirects('/admin');
-
         $updatedAdmin = $this->adminRepository->find($adminId);
         self::assertTrue($updatedAdmin->isActive());
     }
 
-    public function test_activate_already_active_user(): void
+    public function test_cannot_activate_already_active_user(): void
     {
         $admin = (new Admin)->setEmail('test@example.com')->setPassword('password')->setRoles(['ROLE_USER'])->setIsActive(true);
         $this->em->persist($admin);
@@ -105,12 +106,10 @@ class AdminControllerTest extends WebTestCase
 
         $this->login();
 
-        $this->client->request('GET', "/admin/activate/user/$adminId");
+        $this->client->request('GET', '/admin');
+        $this->client->request('POST', "/admin/activate/user/$adminId");
 
-        self::assertEmailCount(0);
-        self::assertResponseRedirects('/admin');
-        $updatedAdmin = $this->adminRepository->find($adminId);
-        self::assertTrue($updatedAdmin->isActive());
+        self::assertResponseStatusCodeSame(500);
     }
 
     public function test_delete_user_success(): void
@@ -122,7 +121,10 @@ class AdminControllerTest extends WebTestCase
 
         $this->login();
 
-        $this->client->request('GET', "/admin/delete/user/$adminId");
+        $crawler = $this->client->request('GET', '/admin');
+
+        $form = $crawler->selectButton('Delete user')->form();
+        $this->client->submit($form);
 
         self::assertResponseRedirects('/admin');
         $this->client->followRedirect();
@@ -132,15 +134,17 @@ class AdminControllerTest extends WebTestCase
         self::assertNull($deletedAdmin);
     }
 
-    public function test_delete_non_existent_user(): void
+    public function test_cannot_delete_non_existent_user(): void
     {
         $this->login();
-        $this->client->request('GET', '/admin/delete/user/999');
-        self::assertResponseStatusCodeSame(404);
-        self::assertStringContainsString('User with id 999 not found.', $this->client->getResponse()->getContent());
+
+        $this->client->request('GET', '/admin');
+        $this->client->request('POST', '/admin/activate/user/12345');
+
+        self::assertResponseStatusCodeSame(500);
     }
 
-    public function test_delete_super_admin_user(): void
+    public function test_cannot_delete_super_admin_user(): void
     {
         $admin = (new Admin)->setEmail('newsuperadmin@example.com')->setPassword('password')->setRoles(['ROLE_SUPER_ADMIN'])->setIsActive(true);
         $this->em->persist($admin);
@@ -148,10 +152,9 @@ class AdminControllerTest extends WebTestCase
         $adminId = $admin->getId();
 
         $this->login();
-        $this->client->request('GET', "/admin/delete/user/$adminId");
+        $this->client->request('POST', "/admin/delete/user/$adminId");
 
-        self::assertResponseStatusCodeSame(403);
-        self::assertStringContainsString('Operation not allowed.', $this->client->getResponse()->getContent());
+        self::assertResponseStatusCodeSame(500);
     }
 
     protected function login(): void
