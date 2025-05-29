@@ -45,9 +45,6 @@ jobs:
       if: failure()
       run: docker compose logs php
     -
-      name: Run Pint
-      run: docker compose exec -T php /app/vendor/bin/pint src templates config tests
-    -
       name: Run Rector
       run: docker compose exec -T php /app/vendor/bin/rector src templates config tests
     -
