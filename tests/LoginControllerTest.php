@@ -33,13 +33,15 @@ class LoginControllerTest extends WebTestCase
 
         $user = (new Admin)->setEmail('email@example.com');
         $user->setPassword($passwordHasher->hashPassword($user, 'password'));
+        $user->setRoles(['ROLE_USER']);
         $em->persist($user);
 
         $activeUser = (new Admin)->setEmail('active@example.com');
         $activeUser->setPassword($passwordHasher->hashPassword($user, 'password'));
+        $activeUser->setRoles(['ROLE_USER']);
         $activeUser->setIsActive(true);
-        $em->persist($user);
 
+        $em->persist($activeUser);
         $em->flush();
     }
 
@@ -87,10 +89,10 @@ class LoginControllerTest extends WebTestCase
             ]
         );
 
-        // self::assertResponseRedirects('/');
-        $this->client->followRedirect();
+        $crawler = $this->client->followRedirect();
 
         self::assertSelectorNotExists('.error');
+        self::assertSelectorTextContains('.success', 'You have successfully logged in!');
         self::assertResponseIsSuccessful();
     }
 }
