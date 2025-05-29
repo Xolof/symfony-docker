@@ -28,7 +28,7 @@ class ResetPasswordRequest implements ResetPasswordRequestInterface
             referencedColumnName: 'id',
             onDelete: 'CASCADE'
         )]
-        private ?Admin $user,
+        private Admin $user,
         \DateTimeInterface $expiresAt,
         string $selector,
         string $hashedToken

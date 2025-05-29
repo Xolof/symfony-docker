@@ -14,6 +14,7 @@ class UserChecker implements UserCheckerInterface
      */
     public function checkPreAuth(UserInterface $user): void
     {
+        // @phpstan-ignore method.notFound
         if (! $user->isActive()) {
             throw new NotActivatedException('Your account has not yet been activated.');
         }

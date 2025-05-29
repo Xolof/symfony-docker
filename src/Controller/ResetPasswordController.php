@@ -87,7 +87,7 @@ class ResetPasswordController extends AbstractController
         }
 
         try {
-            $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
+            $user = $this->validateTokenAndFetchUser($token);
         } catch (ResetPasswordExceptionInterface $e) {
             $this->addFlash('reset_password_error', sprintf(
                 '%s - %s',
@@ -161,5 +161,15 @@ class ResetPasswordController extends AbstractController
         $this->setTokenObjectInSession($resetToken);
 
         return $this->redirectToRoute('app_check_email');
+    }
+
+    /**
+     * Validate token and return an instance of Admin
+     *
+     * @return Admin
+     */
+    protected function validateTokenAndFetchUser(string $token): Admin
+    {
+        return $this->resetPasswordHelper->validateTokenAndFetchUser($token);
     }
 }

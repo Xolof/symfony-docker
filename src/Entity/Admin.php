@@ -24,12 +24,12 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
-    private ?string $email = null;
+    private string $email;
 
     /**
      * The user roles
      *
-     * @var list<string>
+     * @var array<string>
      */
     #[ORM\Column]
     private array $roles = [];
@@ -48,10 +48,10 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
      * The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    private string $password;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $isActive = false;
+    private bool $isActive = false;
 
     /**
      * Get the ID of the admin
@@ -83,6 +83,8 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
 
     /**
      * A visual identifier that represents this user.
+     *
+     * @return string
      */
     public function getUserIdentifier(): string
     {
@@ -106,7 +108,7 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     /**
      * Set the roles of the admin
      *
-     * @param array<string> $roles The user roles
+     * @param array<string> $roles The roles of the admin.
      */
     public function setRoles(array $roles): static
     {
@@ -121,6 +123,14 @@ class Admin implements PasswordAuthenticatedUserInterface, UserInterface
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    /**
+     * Get the raw password
+     */
+    public function getRawPassword(): ?string
+    {
+        return $this->rawPassword;
     }
 
     /**

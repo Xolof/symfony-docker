@@ -43,7 +43,8 @@ class AdminController extends AbstractController
     #[Route('/admin/activate/user/{id}', name: 'admin_activate_user')]
     public function activate(int $id, EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer): Response
     {
-        $submittedToken = $request->getPayload()->get('_csrf_token');
+        $submittedToken = $this->getCsrfToken($request);
+
         if (! $this->isCsrfTokenValid('activate_user', $submittedToken)) {
             throw new Exception('Invalid CSRF token.');
         }
@@ -88,7 +89,7 @@ class AdminController extends AbstractController
     #[Route('/admin/delete/user/{id}', name: 'admin_delete_user')]
     public function delete(int $id, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $submittedToken = $request->getPayload()->get('_csrf_token');
+        $submittedToken = $this->getCsrfToken($request);
         if (! $this->isCsrfTokenValid('delete_user', $submittedToken)) {
             throw new Exception('Invalid CSRF token.');
         }
@@ -113,5 +114,17 @@ class AdminController extends AbstractController
         );
 
         return $this->redirectToRoute('admin_home');
+    }
+
+    /**
+     * Get CSRF token and return it as a string.
+     */
+    protected function getCsrfToken(Request $request): string
+    {
+        $submittedToken = $request->getPayload()->get('_csrf_token');
+        if (!$submittedToken) {
+            throw new Exception('Invalid CSRF token.');
+        }
+        return (string) $submittedToken;
     }
 }

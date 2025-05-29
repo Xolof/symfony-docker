@@ -6,6 +6,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Subscribe to login and logout events and add flash messages.
@@ -37,8 +39,8 @@ class SecurityEventSubscriber implements EventSubscriberInterface
      */
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
-        $session = $this->requestStack->getSession();
-        $session->getFlashBag()->add('success', 'You have successfully logged in!');
+        // @phpstan-ignore method.notFound
+        $this->getSession()->getFlashBag()->add('success', 'You have successfully logged in!');
     }
 
     /**
@@ -46,7 +48,15 @@ class SecurityEventSubscriber implements EventSubscriberInterface
      */
     public function onLogout(LogoutEvent $event): void
     {
-        $session = $this->requestStack->getSession();
-        $session->getFlashBag()->add('success', 'You have been logged out successfully.');
+        // @phpstan-ignore method.notFound
+        $this->getSession()->getFlashBag()->add('success', 'You have been logged out successfully.');
+    }
+
+    /**
+     * Get the Session so that we can get the flashBag from it.
+     */
+    protected function getSession(): Session|SessionInterface
+    {
+        return $this->requestStack->getSession();
     }
 }

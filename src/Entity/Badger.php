@@ -17,16 +17,16 @@ class Badger
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    private ?string $continent = null;
+    private string $continent;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 100)]
-    private ?string $description = null;
+    private string $description;
 
     /**
      * Gets the ID of the Badger entity.
@@ -53,7 +53,7 @@ class Badger
      *
      * @param string $name The name to set
      *
-     * @return self
+     * @return static
      */
     public function setName(string $name): static
     {
@@ -77,7 +77,7 @@ class Badger
      *
      * @param string $continent The continent to set
      *
-     * @return self
+     * @return static
      */
     public function setContinent(string $continent): static
     {
@@ -101,7 +101,7 @@ class Badger
      *
      * @param string $description The description to set
      *
-     * @return self
+     * @return static
      */
     public function setDescription(string $description): static
     {
