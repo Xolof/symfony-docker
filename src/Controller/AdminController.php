@@ -43,11 +43,7 @@ class AdminController extends AbstractController
     #[Route('/admin/activate/user/{id}', name: 'admin_activate_user')]
     public function activate(int $id, EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer): Response
     {
-        $submittedToken = $this->getCsrfToken($request);
-
-        if (! $this->isCsrfTokenValid('activate_user', $submittedToken)) {
-            throw new Exception('Invalid CSRF token.');
-        }
+        $this->checkCsrf("activate_user", $request);
 
         $user = $entityManager->getRepository(Admin::class)
             ->find($id);
@@ -89,10 +85,7 @@ class AdminController extends AbstractController
     #[Route('/admin/delete/user/{id}', name: 'admin_delete_user')]
     public function delete(int $id, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $submittedToken = $this->getCsrfToken($request);
-        if (! $this->isCsrfTokenValid('delete_user', $submittedToken)) {
-            throw new Exception('Invalid CSRF token.');
-        }
+        $this->checkCsrf("delete_user", $request);
 
         $user = $entityManager->getRepository(Admin::class)
             ->find($id);
@@ -126,5 +119,17 @@ class AdminController extends AbstractController
             throw new Exception('Invalid CSRF token.');
         }
         return (string) $submittedToken;
+    }
+
+    /**
+     * Validate CSRF token and throw Exception if not valid.
+     */
+    protected function checkCsrf(string $tokenToCheckFor, Request $request): void
+    {
+        $submittedToken = $this->getCsrfToken($request);
+
+        if (! $this->isCsrfTokenValid($tokenToCheckFor, $submittedToken)) {
+            throw new Exception('Invalid CSRF token.');
+        }
     }
 }
