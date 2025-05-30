@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Helpers\Markdowner;
 
 class BadgerController extends AbstractController
 {
@@ -29,12 +30,15 @@ class BadgerController extends AbstractController
             );
         }
 
+        $markdowner = new Markdowner();
+        $description = $markdowner->print($badger->getDescription());
+
         return $this->render(
             'badger/hello.html.twig',
             [
                 'name' => $badger->getName(),
                 'continent' => $badger->getContinent(),
-                'description' => $badger->getDescription(),
+                'description' => $description,
 
             ]
         );
@@ -52,6 +56,12 @@ class BadgerController extends AbstractController
             ->addOrderBy('badger.id', 'DESC')
             ->getQuery()
             ->execute();
+
+        $markdowner = new Markdowner();
+
+        foreach ($badgers as $badger) {
+            $badger->setDescription($markdowner->print($badger->getDescription()));
+        }
 
         return $this->render(
             'badger/list.html.twig',
