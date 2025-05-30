@@ -1,4 +1,5 @@
 :root {
+  --spacing-xs: 0.4em;
   --spacing-sm: 0.7em;
   --spacing-md: 1em;
   --spacing-xl: 2em;
@@ -53,11 +54,18 @@
   padding: var(--spacing-md) var(--spacing-xl);
 }
 
-p.error {
+p.error,
+.formError ul li {
   background-color: #f8d7da;
   border-color: #f5c6cb;
   color: #721c24;
   padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.formError ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-xs);
 }
 
 .burger.pseudo.button {
@@ -106,6 +114,10 @@ input[type=text]:disabled, textarea:disabled {
   min-height: 150px;
 }
 
+.badger_form input {
+  margin: 0 0 var(--spacing-xs);
+}
+
 .forgot_password_link {
   margin-left: var(--spacing-md);
 }
@@ -131,4 +143,25 @@ input[type=text]:disabled, textarea:disabled {
 .activateUserForm,
 .deleteUserForm {
   display: inline;
+}
+
+.badgerImage {
+  width: 40%;
+}
+
+.badgerImage.small {
+  width: 25%;
+  display: block;
+}
+
+@media screen and (max-width: 775px) {
+  .badgerImage {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  .badgerImage.small {
+    width: 75%;
+    margin: 0;
+  }
 }

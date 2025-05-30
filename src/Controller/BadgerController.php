@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Badger;
+use App\Form\BadgerForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -13,6 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Helpers\Markdowner;
+use App\Service\FileUploader;
+use Psr\Log\LoggerInterface;
+use Exception;
+use Symfony\Component\Form\FormInterface;
 
 class BadgerController extends AbstractController
 {
@@ -39,7 +44,7 @@ class BadgerController extends AbstractController
                 'name' => $badger->getName(),
                 'continent' => $badger->getContinent(),
                 'description' => $description,
-
+                "imageFilename" => $badger->getImageFilename()
             ]
         );
     }
@@ -75,36 +80,24 @@ class BadgerController extends AbstractController
     #[Route('/create/badger', name: 'app_create_badger')]
     public function index(
         EntityManagerInterface $entityManager,
-        ValidatorInterface $validator,
-        Request $request
+        Request $request,
+        FileUploader $fileUploader,
+        LoggerInterface $logger
     ): Response {
-        $form = $this->createFormBuilder()
-            ->add('name', TextType::class)
-            ->add('continent', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('save', SubmitType::class, ['label' => 'Save Badger'])
-            ->getForm();
+        $badger = new Badger();
 
+        $form = $this->createForm(BadgerForm::class, $badger, ['image_is_required' => true]);
         $form->handleRequest($request);
-        $formData = $form->getData();
 
-        if ($form->isSubmitted()) {
-            $badger = new Badger();
-            $badger->setName($formData['name']);
-            $badger->setContinent($formData['continent']);
-            $badger->setDescription($formData['description']);
-
-            $errors = $validator->validate($badger);
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $errors = $this->processBadger($badger, $form, $fileUploader, $logger);
             if (count($errors) < 1) {
                 $entityManager->persist($badger);
                 $entityManager->flush();
-
                 $this->addFlash(
                     'success',
                     'Your changes were saved!'
                 );
-
                 return $this->redirectToRoute('app_home');
             }
         }
@@ -112,9 +105,8 @@ class BadgerController extends AbstractController
         return $this->render(
             'create_badger/index.html.twig',
             [
-                'message' => 'Create badger',
                 'form' => $form,
-                'errors' => $errors ?? null,
+                'errors' => $errors ?? null
             ]
         );
     }
@@ -123,8 +115,13 @@ class BadgerController extends AbstractController
      * Edit a badger.
      */
     #[Route('/edit/badger/{id}', name: 'badger_edit')]
-    public function edit(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager, int $id): Response
-    {
+    public function edit(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        int $id,
+        FileUploader $fileUploader,
+        LoggerInterface $logger
+    ): Response {
         $badger = $entityManager->getRepository(Badger::class)->find($id);
 
         if (! $badger) {
@@ -133,32 +130,18 @@ class BadgerController extends AbstractController
             );
         }
 
-        $form = $this->createFormBuilder()
-            ->add('name', TextType::class, ['data' => $badger->getName()])
-            ->add('continent', TextType::class, ['data' => $badger->getContinent()])
-            ->add('description', TextareaType::class, ['data' => $badger->getDescription()])
-            ->add('save', SubmitType::class, ['label' => 'Save Badger'])
-            ->getForm();
-
+        $form = $this->createForm(BadgerForm::class, $badger, ['image_is_required' => false]);
         $form->handleRequest($request);
-        $formData = $form->getData();
 
-        if ($form->isSubmitted()) {
-            $badger->setName($formData['name']);
-            $badger->setContinent($formData['continent']);
-            $badger->setDescription($formData['description']);
-
-            $errors = $validator->validate($badger);
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $errors = $this->processBadger($badger, $form, $fileUploader, $logger);
             if (count($errors) < 1) {
                 $entityManager->persist($badger);
                 $entityManager->flush();
-
                 $this->addFlash(
                     'success',
                     'Your changes were saved!'
                 );
-
                 return $this->redirectToRoute('badger_edit', ['id' => $id]);
             }
         }
@@ -168,9 +151,56 @@ class BadgerController extends AbstractController
             [
                 'form' => $form,
                 'errors' => $errors ?? null,
+                'currentImageFileName' => $badger->getImageFileName()
             ]
         );
     }
+
+
+    /**
+     * Process creating or updating a badger.
+     *
+     * @return array<string, string> An associative array with errors.
+     */
+    protected function processBadger(
+        object $badger,
+        FormInterface $form,
+        FileUploader $fileUploader,
+        LoggerInterface $logger
+    ): array {
+        $badger->setName($form->get('name')->getData());
+        $badger->setContinent($form->get('continent')->getData());
+        $badger->setDescription($form->get('description')->getData());
+        $imageFile = $form->get('image')->getData();
+        if ($imageFile) {
+            if ($imageFile->isValid()) {
+                try {
+                    $uploadResult = $fileUploader->upload($imageFile);
+                    $badger->setImageFilename($uploadResult);
+                } catch (Exception $e) {
+                    $logger->error($e);
+                    $failedUploadViolation = ["message" => "File upload failed."];
+                }
+            } else {
+                $logger->error($imageFile->getErrorMessage());
+                $invalidFileMessage = ["message" => "The image file is invalid."];
+            }
+        }
+
+        $formIteratorErrors = $form->getErrors(true);
+
+        $otherErrors = [];
+        if (isset($invalidFileMessage)) {
+            $otherErrors[] = $invalidFileMessage;
+        }
+        if (isset($failedUploadViolation)) {
+            $otherErrors[] = $failedUploadViolation;
+        }
+
+        $result = array_merge([$otherErrors, $formIteratorErrors])[0];
+        return $result;
+    }
+
 
     /**
      * Delete a badger.

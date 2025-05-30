@@ -28,6 +28,10 @@ class Badger
     #[Assert\Length(min: 100)]
     private string $description;
 
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
+    private string $imageFilename;
+
     /**
      * Gets the ID of the Badger entity.
      *
@@ -106,6 +110,24 @@ class Badger
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get the filename of the image of the badger.
+     */
+    public function getImageFilename(): string
+    {
+        return $this->imageFilename;
+    }
+
+    /**
+     * Set the filename of the image of the badger.
+     */
+    public function setImageFilename(string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
 
         return $this;
     }

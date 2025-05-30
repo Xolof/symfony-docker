@@ -3,8 +3,42 @@
 {% block body %}
 
 {% for error in errors %}
-    <p class="error">{{ error.propertyPath }}: {{ error.message }}</p>
+    <p class="error">{{ error.message }}</p>
 {% endfor %}
-{{ form(form) }}
+
+<section class="badger_form">
+{{ form_start(form) }}
+
+    {{ form_label(form.name) }}
+    <div class="formError">
+        {{ form_errors(form.name) }}
+    </div>
+    {{ form_widget(form.name) }}
+
+    {{ form_label(form.continent) }}
+    <div class="formError">
+        {{ form_errors(form.continent) }}
+    </div>
+    {{ form_widget(form.continent) }}
+
+    {{ form_label(form.description) }}
+    <div class="formError">
+        {{ form_errors(form.description) }}
+    </div>
+    {{ form_widget(form.description) }}
+
+    {% if currentImageFileName %}
+        <img src="{{ asset('/uploads/images/' ~ currentImageFileName) }}" alt="{{ currentImageFileName }}" class="badgerImage small" /img>
+    {% else %}
+        <p>No image has been set.</p>
+    {% endif %}
+
+    {{ form_label(form.image) }}
+    <div class="formError">
+        {{ form_errors(form.image) }}
+    </div>
+    {{ form_widget(form.image) }}
+{{ form_end(form) }}
+</section>
 
 {% endblock %}
