@@ -101,7 +101,7 @@
         "phpstan/extension-installer": "^1.4.3",
         "phpstan/phpstan-doctrine": "^2.0.3",
         "phpunit/phpunit": "^9.6.23",
-        "rector/rector": "^2.0.16",
+        "rector/rector": "^2.0.17",
         "squizlabs/php_codesniffer": "^3.13",
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*",
