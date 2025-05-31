@@ -5,7 +5,12 @@
 <h1>Badger website</h1>
 
 {% if badgers.haveToPaginate %}
-    {% include 'badger/pagination.html.twig' %}
+    {% set route = 'app_home' %}
+    {% set entities = badgers %}
+    {% set entitiesName = 'badgers' %}
+    {% include 'pagination.html.twig'
+        with { route, entities, entitiesName } only
+    %}
 {% endif %}
 
 {% if badgers|length < 1 %}
@@ -46,7 +51,13 @@
 </section>
 
 {% if badgers.haveToPaginate %}
-    {% include 'badger/pagination.html.twig' %}
+    {% set route = 'app_home' %}
+    {% set entities = badgers %}
+    {% set entitiesName = 'badgers' %}
+    {% include 'pagination.html.twig'
+        with { route, entities, entitiesName } only
+    %}
 {% endif %}
+
 
 {% endblock %}

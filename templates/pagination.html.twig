@@ -1,18 +1,18 @@
 <section class="paginationSection">
     <p class="paginationInfo">
-        {{ badgers.nbResults }} badgers (Page {{ badgers.currentPage }} of {{ badgers.nbPages }})
+        {{ entities.nbResults }} {{ entitiesName }} (Page {{ entities.currentPage }} of {{ entities.nbPages }})
     </p>
     <nav class="pagination">
         <div class="paginationLinks">
-            {% if badgers.hasPreviousPage %}
+            {% if entities.hasPreviousPage %}
                 <a
-                    href="{{ path('app_home', {page: badgers.getPreviousPage}) }}"
+                    href="{{ path(route, {page: entities.getPreviousPage}) }}"
                     class="left"
                 >&lt; Previous</a>
             {% endif %}
-            {% if badgers.hasNextPage %}
+            {% if entities.hasNextPage %}
                 <a
-                    href="{{ path('app_home', {page: badgers.getNextPage}) }}"
+                    href="{{ path(route, {page: entities.getNextPage}) }}"
                     class="right"
                 >Next &gt;</a>
             {% endif %}
