@@ -114,5 +114,3 @@ jobs:
             php8.4 bin/console doctrine:migrations:migrate --no-interaction && \
             php8.4 bin/console asset-map:compile && \
             php8.4 bin/console cache:clear;
-            chmod 600 ${{ secrets.DEPLOY_PATH }}.env;
-            chmod 600 ${{ secrets.DEPLOY_PATH }}.env.local;
