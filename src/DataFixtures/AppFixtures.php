@@ -24,6 +24,7 @@ class AppFixtures extends Fixture
             $badger->setName($faker->name());
             $badger->setContinent($faker->name());
             $badger->setDescription($faker->realText(1200));
+            $badger->setImageFileName("default.jpg");
 
             $manager->persist($badger);
             $manager->flush();
