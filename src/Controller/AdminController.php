@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Admin;
+use App\Repository\AdminRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,14 +23,11 @@ class AdminController extends AbstractController
      * this is defined in the security config file.
      */
     #[Route('/admin', name: 'admin_home')]
-    public function showAll(EntityManagerInterface $entityManager): Response
+    public function showAll(AdminRepository $adminRepository, Request $request): Response
     {
-        $users = $entityManager
-            ->getRepository(Admin::class)
-            ->createQueryBuilder('u')
-            ->addOrderBy('u.id', 'DESC')
-            ->getQuery()
-            ->execute();
+        $users = $adminRepository->getPaginated();
+        $users->setMaxPerPage(4);
+        $users->setCurrentPage($request->query->get("page", 1));
 
         return $this->render(
             'admin/list.html.twig',

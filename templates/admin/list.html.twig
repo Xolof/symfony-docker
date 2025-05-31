@@ -4,6 +4,15 @@
 
 <h1>Administrate Users</h1>
 
+{% if users.haveToPaginate %}
+    {% set route = 'admin_home' %}
+    {% set entities = users %}
+    {% set entitiesName = 'users' %}
+    {% include 'pagination.html.twig'
+        with { route, entities, entitiesName } only
+    %}
+{% endif %}
+
 {% if users|length < 1 %}
     <p>There are not yet any users.</p>
 {% endif %}
@@ -41,5 +50,14 @@
     <hr>
 
 {% endfor %}
+
+{% if users.haveToPaginate %}
+    {% set route = 'admin_home' %}
+    {% set entities = users %}
+    {% set entitiesName = 'users' %}
+    {% include 'pagination.html.twig'
+        with { route, entities, entitiesName } only
+    %}
+{% endif %}
 
 {% endblock %}

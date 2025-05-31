@@ -8,6 +8,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 
 /**
  * Repository for Admin.
@@ -39,6 +41,20 @@ class AdminRepository extends ServiceEntityRepository implements PasswordUpgrade
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Get paginated badmins.
+     *
+     * @return Pagerfanta<Admin> A paginator of Admins.
+     */
+    public function getPaginated(): Pagerfanta
+    {
+        $query = $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->getQuery();
+
+        return new Pagerfanta(new QueryAdapter($query));
     }
 
     // **
