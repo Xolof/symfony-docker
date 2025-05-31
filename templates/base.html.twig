@@ -22,24 +22,7 @@
         <div class="pageTop" id="pageTop"></div>
 
         <main class="container">
-
-            {% for message in app.flashes('success') %}
-                <p class="flash success">
-                    {{ message }}
-                </p>
-            {% endfor %}
-
-            {% for message in app.flashes('info') %}
-                <p class="flash info">
-                    {{ message }}
-                </p>
-            {% endfor %}
-
-            {% for message in app.flashes('error') %}
-                <p class="flash error">
-                    {{ message }}
-                </p>
-            {% endfor %}
+            {% include 'flashes.html.twig' %}
 
             {% block body %}{% endblock %}
         </main>
