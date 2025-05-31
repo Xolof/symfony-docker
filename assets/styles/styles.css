@@ -6,6 +6,7 @@
   --spacing-xl: 2em;
   --spacing-xxl: 4em;
   --spacing-xxxl: 6em;
+  --spacing-4xl: 7em;
   --link-color: #78B4E8;
 }
 
@@ -205,7 +206,7 @@ input[type=text]:disabled, textarea:disabled {
 
 .paginationFooter {
   margin-top: var(--spacing-md);
-  margin-bottom: var(--spacing-xxxl);
+  margin-bottom: var(--spacing-4xl);
 }
 
 .pageTop {
