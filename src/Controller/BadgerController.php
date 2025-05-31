@@ -269,9 +269,14 @@ class BadgerController extends AbstractController
             }
         }
 
+        $imageFileName = $badger->getImageFileName();
+
         return $this->render(
             'badger/delete.html.twig',
-            ['form' => $form]
+            [
+                'form' => $form,
+                'imageFileName' => $imageFileName
+            ]
         );
     }
 }
