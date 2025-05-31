@@ -1,0 +1,29 @@
+<nav>
+    <a href="/" class="brand">
+        <img class="logo" src="{{ asset('logo.png') }}" />
+    </a>
+
+    <!-- responsive-->
+    <input id="bmenub" type="checkbox" class="show">
+    <label for="bmenub" class="burger pseudo button">&#8801;</label>
+
+    <div class="menu">
+        <a href="{{ path('app_home') }}">Badger list</a>
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('app_create_badger') }}">Add badger</a>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a href="{{ path('admin_home') }}">Administrate users</a>
+            {% endif %}
+
+            <form action="{{ path('app_logout') }}" method="post" class="logoutForm">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                <button class="buttonStyledAsAnchorTag" type="submit">Logout</button>
+            </form>
+
+        {% endif %}
+        {% if not is_granted('ROLE_USER') %}
+            <a href="{{ path('app_login') }}">Login</a>
+            <a href="{{ path('register') }}">Register</a>
+        {% endif %}
+    </div>
+</nav>
