@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}404 Not Found{% endblock %}
+
+{% block body %}
+
+{% apply inline_css %}
+
+<style>
+html {
+    height: unset;
+}
+</style>
+
+<section class="NotFoundContainer">
+    <h1 class="NotFoundHeading">404 Not Found</h1>
+</section>
+
+{% endapply %}
+
+{% endblock %}

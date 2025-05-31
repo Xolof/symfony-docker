@@ -214,6 +214,17 @@ input[type=text]:disabled, textarea:disabled {
   top: 0;
 }
 
+.NotFoundHeading {
+  text-align: center;
+}
+
+.NotFoundContainer {
+  height: 64vh;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
 @media screen and (max-width: 920px) {
   .paginationSection {
     width: 100%;
