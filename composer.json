@@ -9,11 +9,14 @@
         "php": ">=8.4.7",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "babdev/pagerfanta-bundle": "^4.5",
         "doctrine/dbal": "^3.9.4",
         "doctrine/doctrine-bundle": "^2.14",
         "doctrine/doctrine-migrations-bundle": "^3.4.2",
         "doctrine/orm": "^3.3.3",
+        "erusev/parsedown": "dev-fix_Implicitly_marking_parameter_as_nullable as 1.7.4",
         "fakerphp/faker": "^1.24.1",
+        "pagerfanta/doctrine-orm-adapter": "^4.7",
         "runtime/frankenphp-symfony": "^0.2.0",
         "symfony/asset": "7.2.*",
         "symfony/asset-mapper": "7.2.*",
@@ -34,8 +37,7 @@
         "symfony/yaml": "7.2.*",
         "symfonycasts/reset-password-bundle": "^1.23.1",
         "twig/extra-bundle": "^2.12|^3.21",
-        "twig/twig": "^2.12|^3.21.1",
-		"erusev/parsedown": "dev-fix_Implicitly_marking_parameter_as_nullable as 1.7.4"
+        "twig/twig": "^2.12|^3.21.1"
     },
 	"repositories": [{
 		    "type": "vcs",
