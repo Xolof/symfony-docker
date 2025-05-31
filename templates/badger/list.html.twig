@@ -54,9 +54,11 @@
     {% set route = 'app_home' %}
     {% set entities = badgers %}
     {% set entitiesName = 'badgers' %}
-    {% include 'pagination.html.twig'
-        with { route, entities, entitiesName } only
-    %}
+    <section class="paginationFooter">
+        {% include 'pagination.html.twig'
+            with { route, entities, entitiesName } only
+        %}
+    </section>
 {% endif %}
 
 

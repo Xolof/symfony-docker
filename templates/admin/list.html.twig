@@ -55,9 +55,11 @@
     {% set route = 'admin_home' %}
     {% set entities = users %}
     {% set entitiesName = 'users' %}
-    {% include 'pagination.html.twig'
-        with { route, entities, entitiesName } only
-    %}
+    <section class="paginationFooter">
+        {% include 'pagination.html.twig'
+            with { route, entities, entitiesName } only
+        %}
+    </section>
 {% endif %}
 
 {% endblock %}

@@ -5,6 +5,7 @@
   --spacing-md: 1em;
   --spacing-xl: 2em;
   --spacing-xxl: 4em;
+  --spacing-xxxl: 6em;
   --link-color: #78B4E8;
 }
 
@@ -192,6 +193,11 @@ input[type=text]:disabled, textarea:disabled {
   width: 25%;
   float: right;
   font-size: 1rem;
+}
+
+.paginationFooter {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-xxxl);
 }
 
 @media screen and (max-width: 920px) {
