@@ -200,6 +200,11 @@ input[type=text]:disabled, textarea:disabled {
   margin-bottom: var(--spacing-xxxl);
 }
 
+.pageTop {
+  position: absolute;
+  top: 0;
+}
+
 @media screen and (max-width: 920px) {
   .paginationSection {
     width: 100%;

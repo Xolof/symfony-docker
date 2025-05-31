@@ -47,6 +47,8 @@
             </div>
         </nav>
 
+        <div class="pageTop" id="pageTop"></div>
+
         <main class="container">
 
             {% for message in app.flashes('success') %}
@@ -72,6 +74,9 @@
 
         <footer class="footer">
             <p>Made by <a href="https://github.com/xolof">Xolof</a> with <a href="https://symfony.com/">Symfony</a> and <a href="https://picnicss.com/">Picnic CSS</a></p>
+            <p>
+                <a href="#pageTop" tabindex="-1">▲ Go up ▲</a>
+            </p>
         </footer>
     </body>
 </html>
