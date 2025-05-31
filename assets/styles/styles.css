@@ -13,7 +13,7 @@
   display: block;
   margin: var(--spacing-xxl) auto 0;
   max-width: 968px;
-  padding: 0 var(--spacing-md);
+  padding: 0 var(--spacing-xl);
 }
 
 .footer {
@@ -86,6 +86,14 @@ p.error,
 
 body, nav, nav .burger~.menu {
   background-color: #18202a;
+}
+
+.mainNavigation {
+    width: 968px;
+    margin: 0 auto;
+    box-shadow: unset;
+    border-bottom: 1px solid #222e3f;
+    padding: var(--spacing-xl) 0;
 }
 
 h1, h2, h3, h4, h5, p, li, label, a.brand, small,
