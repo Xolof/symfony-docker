@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Badger;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
 
 /**
  * Repository for Badger.
@@ -21,6 +23,21 @@ class BadgerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Badger::class);
     }
+
+    /**
+     * Get paginated badgers.
+     *
+     * @return Pagerfanta<Badger> A paginator of Badgers.
+     */
+    public function getPaginated(): Pagerfanta
+    {
+        $query = $this->createQueryBuilder('b')
+            ->orderBy('b.id', 'DESC')
+            ->getQuery();
+
+        return new Pagerfanta(new QueryAdapter($query));
+    }
+
 
     // **
     // * @return Badger[] Returns an array of Badger objects

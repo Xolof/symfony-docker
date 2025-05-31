@@ -1,0 +1,21 @@
+<section class="paginationSection">
+    <p class="paginationInfo">
+        {{ badgers.nbResults }} badgers (Page {{ badgers.currentPage }} of {{ badgers.nbPages }})
+    </p>
+    <nav class="pagination">
+        <div class="paginationLinks">
+            {% if badgers.hasPreviousPage %}
+                <a
+                    href="{{ path('app_home', {page: badgers.getPreviousPage}) }}"
+                    class="left"
+                >&lt; Previous</a>
+            {% endif %}
+            {% if badgers.hasNextPage %}
+                <a
+                    href="{{ path('app_home', {page: badgers.getNextPage}) }}"
+                    class="right"
+                >Next &gt;</a>
+            {% endif %}
+        </div>
+    </nav>
+</section>

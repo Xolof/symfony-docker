@@ -1,10 +1,10 @@
 :root {
+  --spacing-xxs: 0.2em;
   --spacing-xs: 0.4em;
   --spacing-sm: 0.7em;
   --spacing-md: 1em;
   --spacing-xl: 2em;
   --spacing-xxl: 4em;
-
   --link-color: #78B4E8;
 }
 
@@ -152,6 +152,71 @@ input[type=text]:disabled, textarea:disabled {
 .badgerImage.small {
   width: 25%;
   display: block;
+}
+
+.pagination {
+  position: unset;
+  height: unset;
+  padding: unset;
+  box-shadow: unset;
+  background: unset;
+  color: #D1D0CE;
+}
+
+.pagination .left,
+.pagination .right {
+  border: 2px solid transparent;
+  padding: var(--spacing-xxs);
+}
+
+.pagination .left {
+  float: left;
+ }
+
+.pagination .right {
+  float: right;
+  margin-left: var(--spacing-xxl);
+}
+
+.pagination .left:hover,
+.pagination .right:hover {
+  border: 2px solid #595959;
+}
+
+.paginationInfo {
+  margin: 0 0 var(--spacing-sm);
+  float: right;
+}
+
+.paginationSection {
+  width: 25%;
+  float: right;
+  font-size: 1rem;
+}
+
+@media screen and (max-width: 920px) {
+  .paginationSection {
+    width: 100%;
+    float: unset;
+    margin-bottom: var(--spacing-xxl);
+  }
+
+  .pagination .left,
+  .pagination .right {
+    float: unset;
+  }
+
+  .pagination .right {
+    margin-left: var(--spacing-md)
+  }
+
+  .paginationInfo {
+    float: left;
+  }
+
+  .pagination {
+    float: right;
+  }
 }
 
 @media screen and (max-width: 775px) {

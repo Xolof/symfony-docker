@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Badger;
 use App\Form\BadgerForm;
+use App\Repository\BadgerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -53,14 +54,13 @@ class BadgerController extends AbstractController
      * Show a list of all badgers.
      */
     #[Route('/', name: 'app_home')]
-    public function showAll(EntityManagerInterface $entityManager): Response
-    {
-        $badgers = $entityManager
-            ->getRepository(Badger::class)
-            ->createQueryBuilder('badger')
-            ->addOrderBy('badger.id', 'DESC')
-            ->getQuery()
-            ->execute();
+    public function showAll(
+        BadgerRepository $badgerRepository,
+        Request $request
+    ): Response {
+        $badgers = $badgerRepository->getPaginated();
+        $badgers->setMaxPerPage(4);
+        $badgers->setCurrentPage($request->query->get("page", 1));
 
         $markdowner = new Markdowner();
 

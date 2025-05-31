@@ -4,10 +4,15 @@
 
 <h1>Badger website</h1>
 
+{% if badgers.haveToPaginate %}
+    {% include 'badger/pagination.html.twig' %}
+{% endif %}
+
 {% if badgers|length < 1 %}
     <p>There are not yet any published badgers.</p>
 {% endif %}
 
+<section class="badgersList">
 {% for badger in badgers %}
     <h2>{{ badger.name }}</h2>
 
@@ -38,5 +43,10 @@
     <hr>
 
 {% endfor %}
+</section>
+
+{% if badgers.haveToPaginate %}
+    {% include 'badger/pagination.html.twig' %}
+{% endif %}
 
 {% endblock %}
