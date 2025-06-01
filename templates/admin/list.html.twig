@@ -12,7 +12,7 @@
     </div>
 
     <div class="customPagination">
-        {% set route = 'app_home' %}
+        {% set route = 'admin_home' %}
         {% set entities = users %}
         {% set entitiesName = 'users' %}
         {% include 'pagination.html.twig'
@@ -64,7 +64,7 @@
             {{ pagerfanta(users, 'default') }}
         </div>
         <div class="customPagination">
-            {% set route = 'app_home' %}
+            {% set route = 'admin_home' %}
             {% set entities = users %}
             {% set entitiesName = 'users' %}
             {% include 'pagination.html.twig'
