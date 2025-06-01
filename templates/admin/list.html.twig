@@ -26,36 +26,36 @@
 {% endif %}
 
 {% for user in users %}
-    <ul>
-        <li>Id: {{ user.id }}</li>
-        <li>Email: {{ user.email }}</li>
-        <li>{{ user.isActive ? 'Activated' : 'Not activated' }}</li>
-        <li>Roles: {{ user.roles|join(', ') }}</li>
-    </ul>
+    <article class="itemArticle">
+        <ul>
+            <li>Id: {{ user.id }}</li>
+            <li>Email: {{ user.email }}</li>
+            <li>{{ user.isActive ? 'Activated' : 'Not activated' }}</li>
+            <li>Roles: {{ user.roles|join(', ') }}</li>
+        </ul>
 
-    {% if is_granted('ROLE_USER') %}
-        <p>
-            {% if 'ROLE_SUPER_ADMIN' not in user.roles  %}
-                <section class="controls">
-                    {% if not user.isActive %}
+        {% if is_granted('ROLE_USER') %}
+            <p>
+                {% if 'ROLE_SUPER_ADMIN' not in user.roles  %}
+                    <section class="controls">
+                        {% if not user.isActive %}
 
-                        <form action="{{ path('admin_activate_user', { id: user.id }) }}" method="post" class="activateUserForm">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('activate_user') }}">
-                            <button class="buttonStyledAsAnchorTag" type="submit">Activate user</button>
-                        </form> |
+                            <form action="{{ path('admin_activate_user', { id: user.id }) }}" method="post" class="activateUserForm">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('activate_user') }}">
+                                <button class="buttonStyledAsAnchorTag" type="submit">Activate user</button>
+                            </form> |
 
-                    {% endif %}
+                        {% endif %}
 
-                        <form action="{{ path('admin_delete_user', { id: user.id }) }}" method="post" class="deleteUserForm">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_user') }}">
-                            <button class="buttonStyledAsAnchorTag" type="submit">Delete user</button>
-                        </form>
-                </section>
-            {% endif %}
-        </p>
-    {% endif %}
-
-    <hr>
+                            <form action="{{ path('admin_delete_user', { id: user.id }) }}" method="post" class="deleteUserForm">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_user') }}">
+                                <button class="buttonStyledAsAnchorTag" type="submit">Delete user</button>
+                            </form>
+                    </section>
+                {% endif %}
+            </p>
+        {% endif %}
+    </article>
 
 {% endfor %}
 

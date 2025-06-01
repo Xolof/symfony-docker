@@ -224,6 +224,10 @@ input[type=text]:disabled, textarea:disabled {
   background-color: var(--link-color);
 }
 
+.itemArticle {
+    border-bottom: 1px solid var(--border-color);
+}
+
 @media screen and (max-width: 550px) {
   .customPagination {
     display: initial;

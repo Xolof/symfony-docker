@@ -33,34 +33,34 @@
 
 <section class="badgersList">
 {% for badger in badgers %}
-    <h2>{{ badger.name }}</h2>
+    <article class="itemArticle">
+        <h2>{{ badger.name }}</h2>
 
-    {% if badger.imageFilename %}
-        <img src="{{ asset('/uploads/images/' ~ badger.imageFilename) }}" alt="{{ badger.name }}" class="badgerImage" /img>
-    {% else %}
-        <img src="https://picsum.photos/300/200" alt="placeholder" class="badgerImage" />
-    {% endif %}
+        {% if badger.imageFilename %}
+            <img src="{{ asset('/uploads/images/' ~ badger.imageFilename) }}" alt="{{ badger.name }}" class="badgerImage" /img>
+        {% else %}
+            <img src="https://picsum.photos/300/200" alt="placeholder" class="badgerImage" />
+        {% endif %}
 
-    <h3>Continent</h3>
-    <p>
-        {{ badger.continent }}
-    </p>
-
-    <h3>Description</h3>
-    <p>
-        {{ badger.description|slice(0, 1000)|raw }}
-        <span>...</span>
-        <a href="/badger/{{ badger.id }}">Read more about this badger</a>
-    </p>
-
-    {% if is_granted('ROLE_USER') %}
+        <h3>Continent</h3>
         <p>
-            <a href="/edit/badger/{{ badger.id }}">Edit badger {{ badger.id }}</a>
-            | <a href="/delete/badger/{{ badger.id }}">Delete badger {{ badger.id }}</a>
+            {{ badger.continent }}
         </p>
-    {% endif %}
 
-    <hr>
+        <h3>Description</h3>
+        <p>
+            {{ badger.description|slice(0, 1000)|raw }}
+            <span>...</span>
+            <a href="/badger/{{ badger.id }}">Read more about this badger</a>
+        </p>
+
+        {% if is_granted('ROLE_USER') %}
+            <p>
+                <a href="/edit/badger/{{ badger.id }}">Edit badger {{ badger.id }}</a>
+                | <a href="/delete/badger/{{ badger.id }}">Delete badger {{ badger.id }}</a>
+            </p>
+        {% endif %}
+    </article>
 
 {% endfor %}
 </section>
