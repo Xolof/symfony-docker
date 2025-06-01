@@ -2,7 +2,7 @@
     display: block;
     margin: var(--spacing-xxl) auto 0;
     max-width: 968px;
-    padding: 0 var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md) 0;
 }
 
 .footer {
