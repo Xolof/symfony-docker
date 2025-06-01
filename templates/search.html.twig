@@ -1,0 +1,12 @@
+<section class="searchSection">
+    <form action="{{ path('app_home') }}" method="get" class="searchForm">
+        <img class="searchIcon" src="{{ asset('img/loupe-svgrepo-com.svg') }}"/>
+        <input type="search" name="s" class="searchInput" value="{{ search }}">
+        <button type="submit">Search</button>
+    </form>
+    {% if badgers|length < 1 %}
+        <p>No badgers found.</p>
+    {% else %}
+        <p>Found {{ badgers|length }} badgers.</p>
+    {% endif %}
+</section>
