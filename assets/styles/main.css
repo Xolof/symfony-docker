@@ -272,6 +272,15 @@ textarea:disabled {
     border-bottom: 1px solid var(--border-color);
 }
 
+.themeToggleLink {
+    position: relative;
+    top: 3px;
+}
+
+.filterThemeToggler {
+    filter: var(--svg-filter);
+}
+
 @media screen and (width <=550px) {
     .customPagination {
         display: initial;

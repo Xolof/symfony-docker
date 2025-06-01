@@ -41,7 +41,7 @@
 
         <h3>Description</h3>
         <p>
-            {{ badger.description|slice(0, 1000)|raw }}
+            {{ badger.description|slice(0, 500)|raw }}
             <span>...</span>
             <a href="/badger/{{ badger.id }}">Read more about this badger</a>
         </p>
