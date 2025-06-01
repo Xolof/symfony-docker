@@ -12,7 +12,7 @@
         {% set theme = app.request.cookies.get('theme') ?? 'dark' %}
         {% if theme == 'dark' %}
             {% block stylesheets %}
-                <link rel="stylesheet" href="{{ asset('/darkTheme.css') }}">
+                {% block importmap_dark %}{{ importmap('darkTheme') }}{% endblock %}
             {% endblock %}
         {% endif %}
 
