@@ -23,34 +23,6 @@ use Symfony\Component\Form\FormInterface;
 class BadgerController extends AbstractController
 {
     /**
-     * Show a specific badger.
-     */
-    #[Route('/badger/{id}', name: 'badger_show')]
-    public function show(EntityManagerInterface $entityManager, int $id): Response
-    {
-        $badger = $entityManager->getRepository(Badger::class)->find($id);
-
-        if (! $badger) {
-            throw $this->createNotFoundException(
-                'No badger found for id ' . $id
-            );
-        }
-
-        $markdowner = new Markdowner();
-        $description = $markdowner->print($badger->getDescription());
-
-        return $this->render(
-            'badger/hello.html.twig',
-            [
-                'name' => $badger->getName(),
-                'continent' => $badger->getContinent(),
-                'description' => $description,
-                "imageFilename" => $badger->getImageFilename()
-            ]
-        );
-    }
-
-    /**
      * Show a list of all badgers.
      */
     #[Route('/', name: 'app_home')]
@@ -76,6 +48,34 @@ class BadgerController extends AbstractController
             [
                 'badgers' => $badgers,
                 'search' => $search
+            ]
+        );
+    }
+
+    /**
+     * Show a specific badger.
+     */
+    #[Route('/badger/{id}', name: 'badger_show')]
+    public function show(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $badger = $entityManager->getRepository(Badger::class)->find($id);
+
+        if (! $badger) {
+            throw $this->createNotFoundException(
+                'No badger found for id ' . $id
+            );
+        }
+
+        $markdowner = new Markdowner();
+        $description = $markdowner->print($badger->getDescription());
+
+        return $this->render(
+            'badger/hello.html.twig',
+            [
+                'name' => $badger->getName(),
+                'continent' => $badger->getContinent(),
+                'description' => $description,
+                "imageFilename" => $badger->getImageFilename()
             ]
         );
     }
@@ -162,7 +162,6 @@ class BadgerController extends AbstractController
         );
     }
 
-
     /**
      * Process creating or updating a badger.
      *
@@ -206,7 +205,6 @@ class BadgerController extends AbstractController
         $result = array_merge([$otherErrors, $formIteratorErrors])[0];
         return $result;
     }
-
 
     /**
      * Delete a badger.
