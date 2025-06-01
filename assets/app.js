@@ -8,6 +8,5 @@
 import './styles/picnic.min.css';
 import './styles/pagerfanta.css';
 import './styles/styles.css';
-import './styles/pagerfanta-overrides.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
