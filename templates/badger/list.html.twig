@@ -5,13 +5,20 @@
 <h1>Badger website</h1>
 
 {% if badgers.haveToPaginate %}
-    {% set route = 'app_home' %}
-    {% set entities = badgers %}
-    {% set entitiesName = 'badgers' %}
-    {% include 'pagination.html.twig'
-        with { route, entities, entitiesName } only
-    %}
+    <div class="pagerfantaPagination">
+        {{ pagerfanta(badgers, 'default') }}
+    </div>
+
+    <div class="customPagination">
+        {% set route = 'app_home' %}
+        {% set entities = badgers %}
+        {% set entitiesName = 'badgers' %}
+        {% include 'pagination.html.twig'
+            with { route, entities, entitiesName } only
+        %}
+    </div>
 {% endif %}
+
 
 {% if badgers|length < 1 %}
     <p>There are not yet any published badgers.</p>
@@ -51,13 +58,18 @@
 </section>
 
 {% if badgers.haveToPaginate %}
-    {% set route = 'app_home' %}
-    {% set entities = badgers %}
-    {% set entitiesName = 'badgers' %}
     <section class="paginationFooter">
-        {% include 'pagination.html.twig'
-            with { route, entities, entitiesName } only
-        %}
+        <div class="pagerfantaPagination">
+            {{ pagerfanta(badgers, 'default') }}
+        </div>
+        <div class="customPagination">
+            {% set route = 'app_home' %}
+            {% set entities = badgers %}
+            {% set entitiesName = 'badgers' %}
+            {% include 'pagination.html.twig'
+                with { route, entities, entitiesName } only
+            %}
+        </div>
     </section>
 {% endif %}
 

@@ -179,15 +179,6 @@ input[type=text]:disabled, textarea:disabled {
   padding: var(--spacing-xxs);
 }
 
-.pagination .left {
-  float: left;
- }
-
-.pagination .right {
-  float: right;
-  margin-left: var(--spacing-xxl);
-}
-
 .pagination .left:hover,
 .pagination .right:hover {
   border: 2px solid #595959;
@@ -195,12 +186,10 @@ input[type=text]:disabled, textarea:disabled {
 
 .paginationInfo {
   margin: 0 0 var(--spacing-sm);
-  float: right;
 }
 
 .paginationSection {
   width: 25%;
-  float: right;
   font-size: 1rem;
 }
 
@@ -225,28 +214,28 @@ input[type=text]:disabled, textarea:disabled {
   justify-content: center
 }
 
+.customPagination {
+  display: none;
+}
+
+@media screen and (max-width: 550px) {
+  .customPagination {
+    display: initial;
+  }
+
+  .pagerfantaPagination {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 920px) {
   .paginationSection {
     width: 100%;
-    float: unset;
-    margin-bottom: var(--spacing-xxl);
-  }
-
-  .pagination .left,
-  .pagination .right {
     float: unset;
   }
 
   .pagination .right {
     margin-left: var(--spacing-md)
-  }
-
-  .paginationInfo {
-    float: left;
-  }
-
-  .pagination {
-    float: right;
   }
 }
 

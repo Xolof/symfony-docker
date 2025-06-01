@@ -7,12 +7,18 @@
 <h1>Administrate Users</h1>
 
 {% if users.haveToPaginate %}
-    {% set route = 'admin_home' %}
-    {% set entities = users %}
-    {% set entitiesName = 'users' %}
-    {% include 'pagination.html.twig'
-        with { route, entities, entitiesName } only
-    %}
+    <div class="pagerfantaPagination">
+        {{ pagerfanta(users, 'default') }}
+    </div>
+
+    <div class="customPagination">
+        {% set route = 'app_home' %}
+        {% set entities = users %}
+        {% set entitiesName = 'users' %}
+        {% include 'pagination.html.twig'
+            with { route, entities, entitiesName } only
+        %}
+    </div>
 {% endif %}
 
 {% if users|length < 1 %}
@@ -54,13 +60,18 @@
 {% endfor %}
 
 {% if users.haveToPaginate %}
-    {% set route = 'admin_home' %}
-    {% set entities = users %}
-    {% set entitiesName = 'users' %}
     <section class="paginationFooter">
-        {% include 'pagination.html.twig'
-            with { route, entities, entitiesName } only
-        %}
+        <div class="pagerfantaPagination">
+            {{ pagerfanta(users, 'default') }}
+        </div>
+        <div class="customPagination">
+            {% set route = 'app_home' %}
+            {% set entities = users %}
+            {% set entitiesName = 'users' %}
+            {% include 'pagination.html.twig'
+                with { route, entities, entitiesName } only
+            %}
+        </div>
     </section>
 {% endif %}
 
