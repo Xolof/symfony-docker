@@ -1,6 +1,7 @@
 .pagination__item {
     border: 1px solid var(--link-color);
     color: var(--link-color);
+    border-radius: 0.2em;
 }
 
 .pagination__item.pagination__item--current-page {
