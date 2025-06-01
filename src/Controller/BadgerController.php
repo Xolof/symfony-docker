@@ -157,7 +157,8 @@ class BadgerController extends AbstractController
             [
                 'form' => $form,
                 'errors' => $errors ?? null,
-                'currentImageFileName' => $badger->getImageFileName()
+                'currentImageFileName' => $badger->getImageFileName(),
+                'id' => $id
             ]
         );
     }
@@ -279,7 +280,8 @@ class BadgerController extends AbstractController
             'badger/delete.html.twig',
             [
                 'form' => $form,
-                'imageFileName' => $imageFileName
+                'imageFileName' => $imageFileName,
+                'id' => $id
             ]
         );
     }
