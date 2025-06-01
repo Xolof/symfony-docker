@@ -14,7 +14,7 @@
   display: block;
   margin: var(--spacing-xxl) auto 0;
   max-width: 968px;
-  padding: 0 var(--spacing-xl);
+  padding: 0 var(--spacing-md);
 }
 
 .footer {
