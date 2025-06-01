@@ -17,6 +17,7 @@
         "erusev/parsedown": "dev-fix_Implicitly_marking_parameter_as_nullable as 1.7.4",
         "fakerphp/faker": "^1.24.1",
         "pagerfanta/doctrine-orm-adapter": "^4.7",
+        "pagerfanta/twig": "^4.7",
         "runtime/frankenphp-symfony": "^0.2.0",
         "symfony/asset": "7.2.*",
         "symfony/asset-mapper": "7.2.*",
