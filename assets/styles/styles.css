@@ -240,6 +240,12 @@ input[type=text]:disabled, textarea:disabled {
   }
 }
 
+.badger_form textarea {
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 200px;
+}
+
 @media screen and (max-width: 920px) {
   .paginationSection {
     width: 100%;
