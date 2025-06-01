@@ -208,6 +208,7 @@ input[type=text]:disabled, textarea:disabled {
   display: none;
 }
 
+
 .searchSection {
   font-size: 1rem;
 }
@@ -217,7 +218,30 @@ input[type=text]:disabled, textarea:disabled {
 }
 
 .searchForm .searchInput {
-  width: 292px;
+    width: 292px;
+    padding: 10px 10px 10px 35px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+} 
+
+.searchForm {
+    position: relative;
+}
+
+.searchInput:focus {
+    border-color: var(--link-color);
+}
+
+.searchIcon {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #3f3f3f;
+    height: 20px;
+    width: auto;
 }
 
 .searchForm button {
@@ -236,6 +260,11 @@ input[type=text]:disabled, textarea:disabled {
   .pagerfantaPagination {
     display: none;
   }
+
+.searchForm .searchInput {
+    width: 240px;
+}
+
 }
 
 .badger_form textarea {
