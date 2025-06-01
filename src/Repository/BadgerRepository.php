@@ -29,11 +29,30 @@ class BadgerRepository extends ServiceEntityRepository
      *
      * @return Pagerfanta<Badger> A paginator of Badgers.
      */
-    public function getPaginated(): Pagerfanta
+    public function getPaginated(?string $search): Pagerfanta
     {
-        $query = $this->createQueryBuilder('b')
-            ->orderBy('b.id', 'DESC')
-            ->getQuery();
+        $entityManager = $this->getEntityManager();
+
+        if ($search) {
+            $search = "%$search%";
+            $query = $entityManager->createQuery(
+                'SELECT b
+                FROM App\Entity\Badger b
+                WHERE b.name LIKE :search
+                OR b.continent LIKE :search
+                OR b.description LIKE :search
+
+                ORDER BY b.id DESC'
+            )->setParameter('search', $search);
+
+            return new Pagerfanta(new QueryAdapter($query));
+        }
+
+        $query = $entityManager->createQuery(
+            'SELECT b
+            FROM App\Entity\Badger b
+            ORDER BY b.id DESC'
+        );
 
         return new Pagerfanta(new QueryAdapter($query));
     }

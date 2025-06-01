@@ -58,7 +58,10 @@ class BadgerController extends AbstractController
         BadgerRepository $badgerRepository,
         Request $request
     ): Response {
-        $badgers = $badgerRepository->getPaginated();
+
+        $search = $request->query->get("s");
+
+        $badgers = $badgerRepository->getPaginated($search);
         $badgers->setMaxPerPage(4);
         $badgers->setCurrentPage($request->query->get("page", 1));
 
@@ -70,7 +73,10 @@ class BadgerController extends AbstractController
 
         return $this->render(
             'badger/list.html.twig',
-            ['badgers' => $badgers]
+            [
+                'badgers' => $badgers,
+                'search' => $search
+            ]
         );
     }
 

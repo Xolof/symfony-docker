@@ -4,6 +4,18 @@
 
 <h1>Badger website</h1>
 
+<section class="searchSection">
+    <form action="{{ path('app_home') }}" method="get" class="searchForm">
+        <input type="search" name="s" class="searchInput" value="{{ search }}">
+        <button type="submit">Search</button>
+    </form>
+    {% if badgers|length < 1 %}
+        <p>No badgers found.</p>
+    {% else %}
+        <p>Found {{ badgers|length }} badgers.</p>
+    {% endif %}
+</section>
+
 {% if badgers.haveToPaginate %}
     <div class="pagerfantaPagination">
         {{ pagerfanta(badgers, 'default') }}
@@ -17,11 +29,6 @@
             with { route, entities, entitiesName } only
         %}
     </div>
-{% endif %}
-
-
-{% if badgers|length < 1 %}
-    <p>There are not yet any published badgers.</p>
 {% endif %}
 
 <section class="badgersList">
@@ -41,7 +48,7 @@
 
     <h3>Description</h3>
     <p>
-        {{ badger.description|slice(0, 1000)|raw }} ...
+        {{ badger.description|slice(0, 1000)|raw }}
         <a href="/badger/{{ badger.id }}">Read more about this badger</a>
     </p>
 

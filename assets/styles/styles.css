@@ -218,6 +218,18 @@ input[type=text]:disabled, textarea:disabled {
   display: none;
 }
 
+.searchSection {
+  font-size: 1rem;
+}
+
+.searchForm {
+  margin-bottom: var(--spacing-xs);
+}
+
+.searchForm .searchInput {
+  width: 292px;
+}
+
 @media screen and (max-width: 550px) {
   .customPagination {
     display: initial;
