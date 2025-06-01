@@ -204,7 +204,7 @@ textarea:disabled {
 
 .paginationFooter {
     margin-top: var(--spacing-md);
-    margin-bottom: var(--spacing-4xl);
+    margin-bottom: var(--spacing-xl);
 }
 
 .pageTop {
