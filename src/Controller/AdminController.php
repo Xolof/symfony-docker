@@ -27,7 +27,9 @@ class AdminController extends AbstractController
     {
         $users = $adminRepository->getPaginated();
         $users->setMaxPerPage(4);
-        $users->setCurrentPage($request->query->get("page", 1));
+
+        $pageNum = (int) $request->query->get("page", "1");
+        $users->setCurrentPage($pageNum);
 
         return $this->render(
             'admin/list.html.twig',

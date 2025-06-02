@@ -35,7 +35,9 @@ class BadgerController extends AbstractController
 
         $badgers = $badgerRepository->getPaginated($search);
         $badgers->setMaxPerPage(4);
-        $badgers->setCurrentPage($request->query->get("page", 1));
+
+        $pageNum = (int) $request->query->get("page", "1");
+        $badgers->setCurrentPage($pageNum);
 
         $markdowner = new Markdowner();
 
@@ -165,6 +167,9 @@ class BadgerController extends AbstractController
 
     /**
      * Process creating or updating a badger.
+     *
+     * @param object                $badger An instance of Badger.
+     * @param FormInterface<object> $form   A form interface.
      *
      * @return array<string, string> An associative array with errors.
      */

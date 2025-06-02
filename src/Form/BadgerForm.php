@@ -12,6 +12,11 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\File;
 
+/**
+ * BadgerForm
+ *
+ * @extends AbstractType<object>
+ */
 class BadgerForm extends AbstractType
 {
     /**
