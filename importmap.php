@@ -19,5 +19,9 @@ return [
     'darkTheme' => [
         'path' => './assets/darkTheme.js',
         'entrypoint' => true,
-    ]
+    ],
+    'scripts' => [
+        'path' => './assets/scripts.js',
+        'entrypoint' => true,
+    ],
 ];
