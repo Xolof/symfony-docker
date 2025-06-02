@@ -9,4 +9,4 @@ import './styles/picnic.min.css';
 import './styles/pagerfanta.css';
 import './styles/styles.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+console.log('from assets/styles.js');
