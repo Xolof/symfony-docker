@@ -185,13 +185,29 @@ textarea:disabled {
 
 .pagination .left,
 .pagination .right {
-    border: 2px solid transparent;
+    border: 1px solid var(--link-color);
+    border-radius: 2px;
     padding: var(--spacing-xxs);
+    font-weight: bold;
 }
 
 .pagination .left:hover,
 .pagination .right:hover {
-    border: 2px solid var(--border-color-dark);
+    background-color: var(--link-color);
+    color: var(--bg-color);
+}
+
+.pagination .left.disabled,
+.pagination .right.disabled {
+    border: 2px solid transparent;
+    color: var(--disabled-color);
+}
+
+.pagination .left.disabled:hover,
+.pagination .right.disabled:hover {
+    border: 2px solid transparent;
+    color: var(--disabled-color);
+    background-color: var(--bg-color);
 }
 
 .paginationInfo {

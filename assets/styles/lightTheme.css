@@ -1,10 +1,10 @@
 :root {
     --link-color: #0ca087;
-    --disabled-color: #5b9b8f;
+    --disabled-color: #687373;
     --text-color: #3b3a30;
     --bg-color: #fff;
     --border-color: #b2c2bf;
-    --border-color-dark: #b2c2bf;
-    --border-color-extra-dark: #b2c2bf;
+    --border-color-dark: #808b89;
+    --border-color-extra-dark: #59615f;
     --svg-filter: invert(43%) sepia(82%) saturate(890%) hue-rotate(133deg) brightness(88%) contrast(91%); /* #0ca087 */
 }
