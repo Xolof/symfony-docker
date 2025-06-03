@@ -15,11 +15,11 @@
 
             {% set theme = app.request.cookies.get('theme') ?? 'dark' %}
             {% if theme == 'dark' %}
-                {% block importmap_dark %}{{ importmap('darkTheme') }}{% endblock %}
+                <link href="{{ asset('styles/darkTheme.css') }}" rel="stylesheet" />
+            {% else %}
+                <link href="{{ asset('styles/lightTheme.css') }}" rel="stylesheet" />
             {% endif %}
         {% endblock %}
-
-
     </head>
     <body>
         {% include 'navigation.html.twig' %}

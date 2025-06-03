@@ -1,4 +1,3 @@
-
 :root {
   --spacing-xxs: 0.2em;
   --spacing-xs: 0.4em;
@@ -8,13 +7,4 @@
   --spacing-xxl: 4em;
   --spacing-xxxl: 6em;
   --spacing-4xl: 7em;
-  
-  --link-color:  #0ca087;
-  --disabled-color:  #5b9b8f;
-  --text-color: #3b3a30;
-  --bg-color: #fff;
-  --border-color:  #b2c2bf;
-  --border-color-dark:  #b2c2bf;
-  --border-color-extra-dark:  #b2c2bf;
-  --svg-filter: invert(43%) sepia(82%) saturate(890%) hue-rotate(133deg) brightness(88%) contrast(91%); /* #0ca087 */
 }
