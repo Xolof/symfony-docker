@@ -32,7 +32,7 @@
     {{ form_widget(form.description) }}
 
     {% if currentImageFileName %}
-        <img src="{{ asset('/uploads/images/' ~ currentImageFileName) }}" alt="{{ currentImageFileName }}" class="badgerImage small" /img>
+        <img src="{{ asset('/uploads/images/' ~ currentImageFileName) }}" alt="{{ currentImageFileName }}" class="badgerImage small">
     {% else %}
         <p>No image has been set.</p>
     {% endif %}

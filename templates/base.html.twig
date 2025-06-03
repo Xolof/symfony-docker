@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
@@ -13,9 +13,9 @@
         {% block stylesheets %}
             {% set theme = app.request.cookies.get('theme') ?? 'dark' %}
             {% if theme == 'dark' %}
-                <link href="{{ asset('styles/darkTheme.css') }}" rel="stylesheet" />
+                <link href="{{ asset('styles/darkTheme.css') }}" rel="stylesheet">
             {% else %}
-                <link href="{{ asset('styles/lightTheme.css') }}" rel="stylesheet" />
+                <link href="{{ asset('styles/lightTheme.css') }}" rel="stylesheet">
             {% endif %}
         {% endblock %}
     </head>
@@ -44,7 +44,7 @@
             </p>
         </footer>
 
-        <script src="{{ asset('js/cookieInfo.js') }}" />
+        <script src="{{ asset('js/cookieInfo.js') }}"></script>
 
     </body>
 </html>

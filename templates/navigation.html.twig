@@ -1,6 +1,6 @@
 <nav class="mainNavigation">
     <a href="/" class="brand">
-        <img class="logo" src="{{ asset('logo.png') }}" />
+        <img class="logo" src="{{ asset('logo.png') }}" alt="logo">
     </a>
 
     <!-- responsive-->
@@ -29,9 +29,9 @@
         {% set theme = app.request.cookies.get('theme') %}
         <a href="{{ path('app_theme') }}" class="themeToggleLink">
             {% if theme == 'light' %}
-                <img src="{{ asset('img/moon-svgrepo-com.svg') }}" class="themeTogglerImage" />
+                <img src="{{ asset('img/moon-svgrepo-com.svg') }}" class="themeTogglerImage" alt="themeTogglerImage">
             {% else %}
-                <img src="{{ asset('img/sun-svgrepo-com.svg') }}" class="themeTogglerImage" />
+                <img src="{{ asset('img/sun-svgrepo-com.svg') }}" class="themeTogglerImage" alt="themeTogglerImage">
             {% endif %}
         </a>
     </div>
