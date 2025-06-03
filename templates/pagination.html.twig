@@ -10,12 +10,16 @@
                     href="{{ path(route, {page: entities.getPreviousPage}) }}"
                     class="left"
                 >&lt; Previous</a>
+            {% else %}
+                <span class="disabled left">&lt; Previous</span>
             {% endif %}
             {% if entities.hasNextPage %}
                 <a
                     href="{{ path(route, {page: entities.getNextPage}) }}"
                     class="right"
                 >Next &gt;</a>
+            {% else %}
+                <span class="disabled right">Next &gt;</span>
             {% endif %}
         </div>
     </nav>
