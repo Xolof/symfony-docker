@@ -38,6 +38,9 @@ jobs:
       name: Run Composer Install
       run: docker compose exec -T php composer install
     -
+      name: Audit importmap
+      run: docker compose exec -T php bin/console importmap:audit
+    -
       name: Run migrations
       run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
     -
