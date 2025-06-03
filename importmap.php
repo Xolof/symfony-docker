@@ -12,16 +12,8 @@
  * The "importmap:require" command can be used to add new entries to this file.
  */
 return [
-    'styles' => [
-        'path' => './assets/styles.js',
+    'map' => [
+        'path' => './assets/map.js',
         'entrypoint' => true,
-    ],
-    'darkTheme' => [
-        'path' => './assets/darkTheme.js',
-        'entrypoint' => true,
-    ],
-    'scripts' => [
-        'path' => './assets/scripts.js',
-        'entrypoint' => true,
-    ],
+    ]
 ];
